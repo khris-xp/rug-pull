@@ -1,7 +1,6 @@
 import BaseLayout from '@/layouts/BaseLayout';
 import HomePage from '@/views/HomePage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
 
 function App() {
   return (
