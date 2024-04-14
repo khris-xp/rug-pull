@@ -1,11 +1,21 @@
 import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
+import useSnackbarToast from '@/hooks/useSnackbar';
 import { useState } from 'react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const { showSnackbar } = useSnackbarToast();
+
+  const handleLogin = () => {
+    if (!email || !password) {
+      showSnackbar('กรุณากรอกข้อมูลให้ครบ', 'error');
+    } else {
+      showSnackbar('เข้าสู่ระบบสำเร็จ', 'success');
+    }
+  };
   return (
     <div className='flex min-h-screen'>
       <div className='hidden lg:flex items-center justify-center flex-1 bg-white text-black'>
@@ -68,7 +78,7 @@ export default function LoginPage() {
                 textSize: 'text-base',
               }}
               props={{
-                onClick: () => null,
+                onClick: () => handleLogin(),
                 text: 'Sign In',
                 type: 'button',
               }}
