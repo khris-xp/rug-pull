@@ -32,13 +32,13 @@ export default function Button({
   props: IProps;
 }) {
   const defaultVariant: IVariant = {
-    color: 'grey-200',
+    color: 'bg-primary',
     padding: 'px-5 py-2.5',
-    hoverColor: 'red-900',
+    hoverColor: 'bg-hover',
     fontSize: 'text-sm',
     fontWeight: 'font-normal',
-    textColor: 'black',
-    hoverTextColor: 'white',
+    textColor: 'text-white',
+    hoverTextColor: 'text-primary',
     borderRadius: 'rounded-lg',
     iconMargin: 'mr-2',
     duration: 'duration-300',
@@ -54,7 +54,7 @@ export default function Button({
     <button
       onClick={onClick}
       type={type === 'submit' ? 'submit' : 'button'}
-      className={`text-${mergedVariant.textColor} bg-${mergedVariant.color} hover:bg-[#FF6C22] ${mergedVariant.borderRadius} ${mergedVariant.fontSize} ${mergedVariant.fontWeight} ${mergedVariant.padding} ${mergedVariant.duration} focus:outline-none`}
+      className={`${mergedVariant.textColor} ${mergedVariant.color} hover:bg-hover hover:text-primary ${mergedVariant.borderRadius} ${mergedVariant.fontSize} ${mergedVariant.fontWeight} ${mergedVariant.padding} ${mergedVariant.duration} focus:outline-none`}
       disabled={disabled}
     >
       <div

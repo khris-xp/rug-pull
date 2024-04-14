@@ -1,3 +1,4 @@
+import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import { useState } from 'react';
@@ -54,14 +55,24 @@ export default function LoginPage() {
                 }}
               />
             </div>
-            <div>
-              <button
-                type='submit'
-                className='w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300'
-              >
-                Sign Up
-              </button>
-            </div>
+            <Button
+              variant={{
+                textColor: 'text-white',
+                hoverTextColor: 'text-primary',
+                padding: 'w-full px-5 py-2.5',
+                fontSize: 'text-xs',
+                fontWeight: 'font-normal',
+                borderRadius: 'rounded-lg',
+                color: 'bg-primary',
+                textAlign: 'center',
+                textSize: 'text-base',
+              }}
+              props={{
+                onClick: () => null,
+                text: 'Sign In',
+                type: 'button',
+              }}
+            />
           </form>
           <div className='mt-4 text-sm text-gray-600 text-center'>
             Don't have an account?{' '}
