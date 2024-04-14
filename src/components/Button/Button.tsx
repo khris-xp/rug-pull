@@ -20,6 +20,8 @@ interface IVariant {
   borderRadius: string;
   iconMargin?: string;
   duration?: string;
+  textAlign?: string;
+  textSize?: string;
 }
 
 export default function Button({
@@ -30,7 +32,7 @@ export default function Button({
   props: IProps;
 }) {
   const defaultVariant: IVariant = {
-    color: 'primary',
+    color: 'grey-200',
     padding: 'px-5 py-2.5',
     hoverColor: 'red-900',
     fontSize: 'text-sm',
@@ -40,25 +42,31 @@ export default function Button({
     borderRadius: 'rounded-lg',
     iconMargin: 'mr-2',
     duration: 'duration-300',
+    textAlign: 'text-left',
+    textSize: 'text-xs',
   };
 
   const mergedVariant = { ...defaultVariant, ...variant };
 
+  const { onClick, text, icon, type, disabled } = props.props;
+
   return (
     <button
-      onClick={props.props.onClick}
-      type={props.props.type === 'submit' ? 'submit' : 'button'}
+      onClick={onClick}
+      type={type === 'submit' ? 'submit' : 'button'}
       className={`text-${mergedVariant.textColor} bg-${mergedVariant.color} hover:bg-[#FF6C22] ${mergedVariant.borderRadius} ${mergedVariant.fontSize} ${mergedVariant.fontWeight} ${mergedVariant.padding} ${mergedVariant.duration} focus:outline-none`}
-      disabled={props.props.disabled}
+      disabled={disabled}
     >
-      <div className='flex items-center'>
-        {props.props.icon && (
+      <div
+        className={`${mergedVariant.textAlign} ${mergedVariant.textSize} flex justify-center items-center`}
+      >
+        {icon && (
           <FontAwesomeIcon
-            icon={props.props.icon}
+            icon={icon}
             className={`${mergedVariant.iconMargin} h-4 w-4`}
           />
         )}
-        {props.props.text}
+        {text}
       </div>
     </button>
   );
