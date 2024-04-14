@@ -3,9 +3,12 @@ import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import { useState } from 'react';
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [age, setAge] = useState<number>(0);
   return (
     <div className='flex min-h-screen'>
       <div className='hidden lg:flex items-center justify-center flex-1 bg-white text-black'>
@@ -16,12 +19,42 @@ export default function LoginPage() {
       <div className='w-full bg-gray-100 lg:w-1/2 flex items-center justify-center'>
         <div className='max-w-md w-full p-6'>
           <h1 className='text-3xl font-semibold mb-6 text-black text-center'>
-            Sign In
+            Sign Up
           </h1>
           <h1 className='text-sm font-semibold mb-6 text-gray-500 text-center'>
             Join to Our Community with all time access and free{' '}
           </h1>
           <form action='#' method='POST' className='space-y-4'>
+            <div>
+              <label className='block text-sm font-medium text-gray-700'>
+                First Name
+              </label>
+              <Spacer margin='my-2' />
+              <Input
+                props={{
+                  variant: 'text',
+                  value: firstName,
+                  onChange: (e) => setFirstName(e.target.value),
+                  placeholder: 'Enter your First Name',
+                  isFull: true,
+                }}
+              />
+            </div>
+            <div>
+              <label className='block text-sm font-medium text-gray-700'>
+                Last Name
+              </label>
+              <Spacer margin='my-2' />
+              <Input
+                props={{
+                  variant: 'text',
+                  value: lastName,
+                  onChange: (e) => setLastName(e.target.value),
+                  placeholder: 'Enter your Last Name',
+                  isFull: true,
+                }}
+              />
+            </div>
             <div>
               <label className='block text-sm font-medium text-gray-700'>
                 Email
@@ -55,6 +88,25 @@ export default function LoginPage() {
                 }}
               />
             </div>
+            <div>
+              <label
+                htmlFor='password'
+                className='block text-sm font-medium text-gray-700'
+              >
+                Age
+              </label>
+              <Spacer margin='my-2' />
+              <Input
+                props={{
+                  variant: 'number',
+                  value: age,
+                  onChange: (e) => setAge(parseInt(e.target.value)),
+                  placeholder: 'Enter your age',
+                  isFull: true,
+                }}
+              />
+            </div>
+            <Spacer margin='mt-3' />
             <Button
               variant={{
                 textColor: 'text-white',
@@ -69,15 +121,15 @@ export default function LoginPage() {
               }}
               props={{
                 onClick: () => null,
-                text: 'Sign In',
+                text: 'Sign Up',
                 type: 'button',
               }}
             />
           </form>
           <div className='mt-4 text-sm text-gray-600 text-center'>
-            Don't have an account?{' '}
-            <a href='/register' className='text-black font-medium underline'>
-              Sign Up
+            Already have an account?{' '}
+            <a href='/login' className='text-black font-medium underline'>
+              Sign In
             </a>
           </div>
         </div>

@@ -8,7 +8,7 @@ interface ISelectOption {
 interface IInputProps {
   variant: 'text' | 'number' | 'textarea' | 'select' | 'password' | 'email';
   placeholder?: string;
-  value?: string;
+  value?: string | number;
   isFull?: boolean;
   selectOptions?: ISelectOption[];
   onChange: (
