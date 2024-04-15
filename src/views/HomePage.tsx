@@ -2,9 +2,21 @@ import Banner from '@/components/Banner/Banner';
 import BentoCard from '@/components/Card/BentoCard';
 import ProductCard from '@/components/Card/ProductCard';
 import Container from '@/layouts/Container';
+import { boardGameService } from '@/services/board-game.service';
+import { BoardGameModelType } from '@/types/board-game.type';
+import { useEffect, useState } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 
 export default function HomePage() {
+  const [boardGames, setBoardGames] = useState<BoardGameModelType[]>([]);
+  async function fetchBoardGames() {
+    const response = await boardGameService.getAllBoardGame('1', '10');
+    setBoardGames(response.data.data);
+  }
+
+  useEffect(() => {
+    fetchBoardGames();
+  }, []);
   return (
     <Fragment>
       <Banner
@@ -25,10 +37,9 @@ export default function HomePage() {
       </Container>
       <div className='flex justify-center container mx-auto'>
         <div className='grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3'>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {boardGames.map((boardGame) => (
+            <ProductCard key={boardGame._id} boardGame={boardGame} />
+          ))}
         </div>
       </div>
     </Fragment>
