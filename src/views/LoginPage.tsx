@@ -2,6 +2,8 @@ import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { authService } from '@/services/auth.service';
+import Cookies from 'js-cookie';
 import { useState } from 'react';
 
 export default function LoginPage() {
@@ -9,11 +11,23 @@ export default function LoginPage() {
   const [password, setPassword] = useState<string>('');
   const { showSnackbar } = useSnackbarToast();
 
-  const handleLogin = () => {
-    if (!email || !password) {
-      showSnackbar('กรุณากรอกข้อมูลให้ครบ', 'error');
-    } else {
-      showSnackbar('เข้าสู่ระบบสำเร็จ', 'success');
+  const handleLogin = async () => {
+    try {
+      if (!email || !password) {
+        showSnackbar('กรุณากรอกข้อมูลให้ครบ', 'error');
+      } else {
+        const loginRequest = { email, password };
+        const response = await authService.login(loginRequest);
+        if (response.success) {
+          Cookies.set('token', response.data.accessToken);
+          showSnackbar('เข้าสู่ระบบสำเร็จ', 'success');
+          window.location.href = '/';
+        } else {
+          showSnackbar('เข้าสู่ระบบไม่สำเร็จ', 'error');
+        }
+      }
+    } catch (error) {
+      showSnackbar('เข้าสู่ระบบไม่สำเร็จ', 'error');
     }
   };
   return (
@@ -31,7 +45,7 @@ export default function LoginPage() {
           <h1 className='text-sm font-semibold mb-6 text-gray-500 text-center'>
             Join to Our Community with all time access and free{' '}
           </h1>
-          <form action='#' method='POST' className='space-y-4'>
+          <form className='space-y-4'>
             <div>
               <label className='block text-sm font-medium text-gray-700'>
                 Email

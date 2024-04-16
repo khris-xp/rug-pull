@@ -1,10 +1,10 @@
+import { LoginDto, RegisterDto } from '@/common/dto/auth.dto';
 import axiosInstance from '@/services/api.service';
-import { BoardGameModelListResponse } from '@/types/response.type';
 
 export async function apiRepository<T>(
   url: string,
   method: 'get' | 'post' | 'put' | 'patch' | 'delete',
-  data?: BoardGameModelListResponse
+  data?: LoginDto | RegisterDto
 ): Promise<T> {
   try {
     const response = await axiosInstance.request({ url, method, data });
