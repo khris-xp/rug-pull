@@ -1,7 +1,10 @@
 import Button from '@/components/Button/Button';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { useLoginValidate } from '@/hooks/useValidate';
+import { generateLoginFields } from '@/mappers/auth.mapper';
 import { authService } from '@/services/auth.service';
 import { userService } from '@/services/user.service';
 import { setAuthState } from '@/store/auth/auth.slice';
@@ -16,7 +19,12 @@ export default function LoginPage() {
   const userData = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
-  const handleLogin = async () => {
+  const { validateField, errors, setErrors } = useLoginValidate();
+
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const fields = generateLoginFields({ email, password }, setErrors);
+    validateField(fields);
     try {
       if (!email || !password) {
         showSnackbar('กรุณากรอกข้อมูลให้ครบ', 'error');
@@ -33,7 +41,6 @@ export default function LoginPage() {
             })
           );
           showSnackbar('เข้าสู่ระบบสำเร็จ', 'success');
-          // window.location.href = '/';
         } else {
           showSnackbar('เข้าสู่ระบบไม่สำเร็จ', 'error');
         }
@@ -64,7 +71,7 @@ export default function LoginPage() {
           <h1 className='text-sm font-semibold mb-6 text-gray-500 text-center'>
             Join to Our Community with all time access and free{' '}
           </h1>
-          <form className='space-y-4'>
+          <form onSubmit={handleLogin} className='space-y-4'>
             <div>
               <label className='block text-sm font-medium text-gray-700'>
                 Email
@@ -79,6 +86,7 @@ export default function LoginPage() {
                   isFull: true,
                 }}
               />
+              {errors.email && <InputErrors errors={errors.email} />}
             </div>
             <div>
               <label
@@ -97,6 +105,7 @@ export default function LoginPage() {
                   isFull: true,
                 }}
               />
+              {errors.password && <InputErrors errors={errors.password} />}
             </div>
             <Button
               variant={{
@@ -111,9 +120,8 @@ export default function LoginPage() {
                 textSize: 'text-base',
               }}
               props={{
-                onClick: () => handleLogin(),
                 text: 'Sign In',
-                type: 'button',
+                type: 'submit',
               }}
             />
           </form>

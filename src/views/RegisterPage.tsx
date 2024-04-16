@@ -1,14 +1,22 @@
 import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
-import { useState } from 'react';
+import { useAppSelector } from '@/store/hooks';
+import { useEffect, useState } from 'react';
 
 export default function RegisterPage() {
+  const userData = useAppSelector((state) => state.auth.user);
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [age, setAge] = useState<number>(0);
+
+  useEffect(() => {
+    if (userData) {
+      window.location.href = '/';
+    }
+  }, [userData]);
   return (
     <div className='flex min-h-screen'>
       <div className='hidden lg:flex items-center justify-center flex-1 bg-white text-black'>
