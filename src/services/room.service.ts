@@ -6,14 +6,8 @@ import {
 } from '@/types/response.type';
 
 export const roomService = {
-  getAllRoom: async (
-    page: string,
-    limit: string
-  ): Promise<RoomModelListResponse> => {
-    return await apiController(
-      `/api/rooms?page=${page}&limit=${limit}&sortBy=name&sortOrder=asc`,
-      'get'
-    );
+  getAllRoom: async (): Promise<RoomModelListResponse> => {
+    return await apiController('/api/rooms', 'get');
   },
   getRoomById: async (id: string): Promise<RoomModelResponse> => {
     return await apiController(`/api/rooms/${id}`, 'get');

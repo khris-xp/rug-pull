@@ -26,10 +26,10 @@ const Pagination: React.FC<IProps> = (props) => {
               variant={{
                 padding: 'px-3 h-8 mr-3',
                 textColor: 'white',
-                hoverTextColor: 'text-gray-700',
                 borderRadius: 'rounded-lg',
-                fontSize: 'text-xs',
+                textSize: 'text-sm',
                 fontWeight: 'font-normal',
+                isHover: true,
               }}
               props={{
                 onClick: () => props.onPageChange(props.currentPage - 1),
@@ -47,9 +47,9 @@ const Pagination: React.FC<IProps> = (props) => {
                 variant={{
                   padding: 'px-3 h-8',
                   textColor: 'white',
-                  hoverTextColor: 'text-gray-700',
                   borderRadius: 'rounded-full',
-                  fontSize: 'text-xs',
+                  isHover: true,
+                  textSize: 'text-sm',
                   fontWeight: 'font-normal',
                 }}
                 props={{
@@ -72,9 +72,9 @@ const Pagination: React.FC<IProps> = (props) => {
                 variant={{
                   padding: 'px-3 h-8',
                   textColor: 'white',
-                  hoverTextColor: 'text-gray-700',
+                  isHover: true,
                   borderRadius: 'rounded-full',
-                  fontSize: 'text-xs',
+                  textSize: 'text-sm',
                   fontWeight: 'font-normal',
                 }}
                 props={{
@@ -95,9 +95,9 @@ const Pagination: React.FC<IProps> = (props) => {
                 variant={{
                   padding: 'px-3 h-8',
                   textColor: 'white',
-                  hoverTextColor: 'text-gray-700',
+                  isHover: true,
                   borderRadius: 'rounded-full',
-                  fontSize: 'text-xs',
+                  textSize: 'text-sm',
                   fontWeight: 'font-normal',
                 }}
                 props={{
@@ -114,10 +114,10 @@ const Pagination: React.FC<IProps> = (props) => {
               variant={{
                 padding: 'px-3 h-8 ml-3',
                 textColor: 'white',
-                hoverTextColor: 'text-gray-700',
                 borderRadius: 'rounded-lg',
-                fontSize: 'text-xs',
+                textSize: 'text-sm',
                 fontWeight: 'font-normal',
+                isHover: true,
               }}
               props={{
                 onClick: () => props.onPageChange(props.currentPage + 1),

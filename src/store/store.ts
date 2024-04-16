@@ -11,18 +11,20 @@ import {
 } from 'redux-persist';
 import { authSlice } from './auth/auth.slice';
 import { boardGameSlice } from './board-game/board-game.slice';
+import { roomSlice } from './room/room.slice';
 import storage from './storage';
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
   boardGames: boardGameSlice.reducer,
+  rooms: roomSlice.reducer,
 });
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['auth', 'boardGames'],
+  whitelist: ['auth', 'boardGames', 'rooms'],
 };
 
 const persistedReducers = persistReducer(persistConfig, rootReducer);

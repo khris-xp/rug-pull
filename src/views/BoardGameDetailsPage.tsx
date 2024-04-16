@@ -1,23 +1,44 @@
+import Button from '@/components/Button/Button';
 import { boardGameService } from '@/services/board-game.service';
+import { roomService } from '@/services/room.service';
 import { setBoardGame } from '@/store/board-game/board-game.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { useCallback, useEffect } from 'react';
+import { setRoomList } from '@/store/room/room.slice';
+import { faBullseye } from '@fortawesome/free-solid-svg-icons';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 export default function BoardGameDetailsPage() {
   const { id } = useParams();
   const boardGame = useAppSelector((state) => state.boardGames.boardGame);
+  const rooms = useAppSelector((state) => state.rooms.roomList);
   const dispatch = useAppDispatch();
+  const [selectedRoom, setSelectedRoom] = useState('');
+
   const fetchBoardGame = useCallback(async () => {
     if (id && boardGame?._id !== id) {
       const response = await boardGameService.getBoardGameById(id);
       dispatch(setBoardGame(response.data));
     }
-  }, [dispatch, id, boardGame?._id]);
+  }, [id, boardGame?._id, dispatch]);
+
+  const fetchRooms = useCallback(async () => {
+    const response = await roomService.getAllRoom();
+    dispatch(setRoomList(response.data));
+  }, [dispatch]);
+
+  function handleRoomClick(roomName: string) {
+    if (selectedRoom === roomName) {
+      setSelectedRoom('');
+    } else {
+      setSelectedRoom(roomName);
+    }
+  }
 
   useEffect(() => {
     fetchBoardGame();
-  }, [fetchBoardGame, id]);
+    fetchRooms();
+  }, [fetchBoardGame, fetchRooms, id]);
   return (
     <section className='py-12 sm:py-16'>
       <div className='container mx-auto px-4'>
@@ -119,74 +140,55 @@ export default function BoardGameDetailsPage() {
             </div>
 
             <h2 className='mt-8 text-base text-gray-900'>
-              Choose subscription
+              Choose rooms to play
             </h2>
             <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
-              <label className=''>
-                <input
-                  type='radio'
-                  name='subscription'
-                  value='4 Months'
-                  className='peer sr-only'
+              {rooms.map((room) => (
+                <Button
+                  variant={{
+                    padding: 'px-6 py-2',
+                    textColor: `text-${
+                      selectedRoom === room._id ? 'white' : 'black'
+                    }`,
+                    color: `bg-${
+                      selectedRoom === room._id ? 'black' : 'gray-200'
+                    }`,
+                    isHover: false,
+                    borderWidth: 'border',
+                    borderRadius: 'rounded-lg',
+                    textSize: 'text-base',
+                    fontWeight: 'font-bold',
+                  }}
+                  props={{
+                    type: 'button',
+                    text: room.name,
+                    onClick: () => handleRoomClick(room._id),
+                  }}
                 />
-                <p className='peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold'>
-                  4 Months
-                </p>
-                <span className='mt-1 block text-center text-xs'>$80/mo</span>
-              </label>
-              <label className=''>
-                <input
-                  type='radio'
-                  name='subscription'
-                  value='8 Months'
-                  className='peer sr-only'
-                  checked
-                />
-                <p className='peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold'>
-                  8 Months
-                </p>
-                <span className='mt-1 block text-center text-xs'>$60/mo</span>
-              </label>
-              <label className=''>
-                <input
-                  type='radio'
-                  name='subscription'
-                  value='12 Months'
-                  className='peer sr-only'
-                />
-                <p className='peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold'>
-                  12 Months
-                </p>
-                <span className='mt-1 block text-center text-xs'>$40/mo</span>
-              </label>
+              ))}
             </div>
 
             <div className='mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
               <div className='flex items-end'>
-                <h1 className='text-3xl font-bold'>$60.50</h1>
-                <span className='text-base'>/month</span>
+                <h1 className='text-3xl font-bold'>฿{boardGame?.price}</h1>
               </div>
-
-              <button
-                type='button'
-                className='inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800'
-              >
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='shrink-0 mr-3 h-5 w-5'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  stroke='currentColor'
-                  stroke-width='2'
-                >
-                  <path
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    d='M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'
-                  />
-                </svg>
-                Add to cart
-              </button>
+              <Button
+                variant={{
+                  padding: 'px-12 py-3',
+                  textColor: 'text-white',
+                  color: 'bg-gray-900',
+                  isHover: true,
+                  borderRadius: 'rounded-lg',
+                  textSize: 'text-lg',
+                  fontWeight: 'font-bold',
+                }}
+                props={{
+                  type: 'button',
+                  text: 'Book Now',
+                  icon: faBullseye,
+                  onClick: () => console.log('Book Now'),
+                }}
+              />
             </div>
 
             <ul className='mt-8 space-y-2'>

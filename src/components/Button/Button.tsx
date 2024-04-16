@@ -12,16 +12,16 @@ interface IProps {
 interface IVariant {
   color?: string;
   padding: string;
-  hoverColor?: string;
-  fontSize: string;
   fontWeight: string;
   textColor: string;
-  hoverTextColor: string;
   borderRadius: string;
   iconMargin?: string;
   duration?: string;
   textAlign?: string;
   textSize?: string;
+  borderWidth?: string;
+  borderColor?: string;
+  isHover: boolean;
 }
 
 export default function Button({
@@ -34,16 +34,16 @@ export default function Button({
   const defaultVariant: IVariant = {
     color: 'bg-primary',
     padding: 'px-5 py-2.5',
-    hoverColor: 'bg-hover',
-    fontSize: 'text-sm',
     fontWeight: 'font-normal',
     textColor: 'text-white',
-    hoverTextColor: 'text-primary',
     borderRadius: 'rounded-lg',
     iconMargin: 'mr-2',
     duration: 'duration-300',
     textAlign: 'text-left',
     textSize: 'text-xs',
+    borderWidth: 'border',
+    borderColor: 'border-black',
+    isHover: true,
   };
 
   const mergedVariant = { ...defaultVariant, ...variant };
@@ -54,7 +54,13 @@ export default function Button({
     <button
       onClick={onClick}
       type={type === 'submit' ? 'submit' : 'button'}
-      className={`${mergedVariant.textColor} ${mergedVariant.color} hover:bg-hover hover:text-primary ${mergedVariant.borderRadius} ${mergedVariant.fontSize} ${mergedVariant.fontWeight} ${mergedVariant.padding} ${mergedVariant.duration} focus:outline-none`}
+      className={`${mergedVariant.textColor} ${mergedVariant.borderColor} ${
+        mergedVariant.isHover ? 'hover:bg-hover hover:text-primary' : ''
+      } ${mergedVariant.borderWidth} ${mergedVariant.color} ${
+        mergedVariant.borderRadius
+      } ${mergedVariant.fontWeight} ${mergedVariant.padding} ${
+        mergedVariant.duration
+      } focus:outline-none`}
       disabled={disabled}
     >
       <div

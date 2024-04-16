@@ -165,9 +165,8 @@ export default function RegisterPage() {
             <Button
               variant={{
                 textColor: 'text-white',
-                hoverTextColor: 'text-primary',
+                isHover: true,
                 padding: 'w-full px-5 py-2.5',
-                fontSize: 'text-xs',
                 fontWeight: 'font-normal',
                 borderRadius: 'rounded-lg',
                 color: 'bg-primary',

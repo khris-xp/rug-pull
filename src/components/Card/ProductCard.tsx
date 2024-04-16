@@ -1,5 +1,5 @@
 import { BoardGameModelType } from '@/types/board-game.type';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faBullseye } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Button/Button';
 import Spacer from '../Spacer/Spacer';
 
@@ -48,21 +48,19 @@ export default function ProductCard(props: ProductCardProps) {
         <Button
           variant={{
             textColor: 'text-white',
-            hoverTextColor: 'text-primary',
-            hoverColor: 'bg-hover',
             padding: 'w-full px-5 py-2.5',
-            fontSize: 'text-xs',
             fontWeight: 'font-normal',
             borderRadius: 'rounded-lg',
             color: 'bg-primary',
             textAlign: 'center',
             textSize: 'text-base',
+            isHover: true,
           }}
           props={{
             onClick: () => null,
             text: 'Add to Cart',
             type: 'button',
-            icon: faCartShopping,
+            icon: faBullseye,
           }}
         />
       </div>
