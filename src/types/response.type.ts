@@ -1,5 +1,8 @@
 import { AuthResponseType } from './auth.type';
-import { CommonBoardGameModelType } from './board-game.type';
+import {
+  BoardGameModelType,
+  CommonBoardGameModelType,
+} from './board-game.type';
 import { UserType } from './user.type';
 
 export type APIResponseType<T> = {
@@ -11,6 +14,6 @@ export type APIResponseType<T> = {
 
 export type BoardGameModelListResponse =
   APIResponseType<CommonBoardGameModelType>;
-export type BoardGameModelResponse = APIResponseType<CommonBoardGameModelType>;
+export type BoardGameModelResponse = APIResponseType<BoardGameModelType>;
 export type AuthModelResponse = APIResponseType<AuthResponseType>;
 export type UserModelResponse = APIResponseType<UserType>;

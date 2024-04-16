@@ -8,6 +8,7 @@ import { boardGameService } from '@/services/board-game.service';
 import { setBoardGameList } from '@/store/board-game/board-game.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useCallback, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Fragment } from 'react/jsx-runtime';
 
 export default function HomePage() {
@@ -50,7 +51,9 @@ export default function HomePage() {
       >
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
           {boardGames.map((boardGame) => (
-            <ProductCard key={boardGame._id} boardGame={boardGame} />
+            <Link to={`/board-game/${boardGame._id}`}>
+              <ProductCard key={boardGame._id} boardGame={boardGame} />
+            </Link>
           ))}
         </div>
       </Container>

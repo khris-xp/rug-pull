@@ -1,4 +1,5 @@
 import { useAppSelector } from '@/store/hooks';
+import { Link } from 'react-router-dom';
 
 export default function ProfilePage() {
   const user = useAppSelector((state) => state.auth.user);
@@ -24,13 +25,13 @@ export default function ProfilePage() {
             <h2 className='text-gray-800 text-3xl font-bold'>
               {user?.firstName} {user?.lastName}
             </h2>
-            <a
+            <Link
               className='text-gray-400 mt-2 hover:text-blue-500'
-              href='https://www.instagram.com/immohitdhiman/'
+              to='/'
               target='BLANK()'
             >
               {user?.email}
-            </a>
+            </Link>
             <p className='mt-2 text-gray-500 text-sm'>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
