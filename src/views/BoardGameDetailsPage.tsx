@@ -144,27 +144,16 @@ export default function BoardGameDetailsPage() {
             </h2>
             <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
               {rooms.map((room) => (
-                <Button
-                  variant={{
-                    padding: 'px-6 py-2',
-                    textColor: `text-${
-                      selectedRoom === room._id ? 'white' : 'black'
-                    }`,
-                    color: `bg-${
-                      selectedRoom === room._id ? 'black' : 'gray-200'
-                    }`,
-                    isHover: false,
-                    borderWidth: 'border',
-                    borderRadius: 'rounded-lg',
-                    textSize: 'text-base',
-                    fontWeight: 'font-bold',
-                  }}
-                  props={{
-                    type: 'button',
-                    text: room.name,
-                    onClick: () => handleRoomClick(room._id),
-                  }}
-                />
+                <button
+                  onClick={() => handleRoomClick(room._id)}
+                  className={`px-6 py-2 ${
+                    selectedRoom === room._id
+                      ? 'text-black bg-white'
+                      : 'bg-black text-white'
+                  } border border-black rounded-lg font-bold duration-100`}
+                >
+                  {room.name}
+                </button>
               ))}
             </div>
 

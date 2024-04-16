@@ -1,15 +1,22 @@
 import ProductCard from '@/components/Card/ProductCard';
+import Input from '@/components/Input/Input';
+import Skeleton from '@/components/Loading/Skeleton';
 import Container from '@/layouts/Container';
 import { boardGameService } from '@/services/board-game.service';
 import { setBoardGameList } from '@/store/board-game/board-game.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Fragment } from 'react/jsx-runtime';
 
 export default function BoardGamePage() {
+  const [search, setSearch] = useState<string>('');
   const dispatch = useAppDispatch();
   const boardGames = useAppSelector((state) => state.boardGames.boardGameList);
+
+  const filteredBoardGames = boardGames.filter((boardGame) =>
+    boardGame.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   const fetchBoardGames = useCallback(async () => {
     const response = await boardGameService.getAllBoardGame('1', '10');
@@ -26,17 +33,45 @@ export default function BoardGamePage() {
         variant={{
           display: 'flex',
           justifyContent: 'center',
+          container: true,
+          margin: 'mx-auto',
+        }}
+      >
+        <Input
+          props={{
+            variant: 'email',
+            value: search,
+            placeholder: 'Search your board game',
+            isFull: true,
+            onChange: (event) => setSearch(event.target.value),
+          }}
+        />
+      </Container>
+      <Container
+        variant={{
+          display: 'flex',
+          justifyContent: 'center',
           container: false,
           margin: 'mx-auto',
         }}
       >
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-          {boardGames.map((boardGame) => (
-            <Link to={`/board-game/${boardGame._id}`}>
-              <ProductCard key={boardGame._id} boardGame={boardGame} />
-            </Link>
-          ))}
-        </div>
+        {filteredBoardGames.length === 0 && (
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
+            {Array.from({ length: 6 }).map((_, index) => (
+              <Skeleton key={index} />
+            ))}
+          </div>
+        )}
+
+        {filteredBoardGames.length > 0 && (
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10'>
+            {filteredBoardGames.map((boardGame) => (
+              <Link key={boardGame._id} to={`/board-game/${boardGame._id}`}>
+                <ProductCard boardGame={boardGame} />
+              </Link>
+            ))}
+          </div>
+        )}
       </Container>
     </Fragment>
   );
