@@ -1,11 +1,12 @@
 import { LoginDto, RegisterDto } from '@/common/dto/auth.dto';
 import { BoardGameDto } from '@/common/dto/board-game.dto';
+import { RoomDto } from '@/common/dto/room.dto';
 import axiosInstance from '@/services/api.service';
 
-export async function apiRepository<T>(
+export async function apiController<T>(
   url: string,
   method: 'get' | 'post' | 'put' | 'patch' | 'delete',
-  data?: LoginDto | RegisterDto | BoardGameDto
+  data?: LoginDto | RegisterDto | BoardGameDto | RoomDto
 ): Promise<T> {
   try {
     const response = await axiosInstance.request({ url, method, data });
