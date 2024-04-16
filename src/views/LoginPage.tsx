@@ -3,13 +3,18 @@ import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
 import { authService } from '@/services/auth.service';
+import { userService } from '@/services/user.service';
+import { setAuthState } from '@/store/auth/auth.slice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import Cookies from 'js-cookie';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const { showSnackbar } = useSnackbarToast();
+  const userData = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
 
   const handleLogin = async () => {
     try {
@@ -20,8 +25,15 @@ export default function LoginPage() {
         const response = await authService.login(loginRequest);
         if (response.success) {
           Cookies.set('token', response.data.accessToken);
+          const user = await userService.getUser();
+          dispatch(
+            setAuthState({
+              user: user.data,
+              accessToken: response.data.accessToken,
+            })
+          );
           showSnackbar('เข้าสู่ระบบสำเร็จ', 'success');
-          window.location.href = '/';
+          // window.location.href = '/';
         } else {
           showSnackbar('เข้าสู่ระบบไม่สำเร็จ', 'error');
         }
@@ -30,6 +42,13 @@ export default function LoginPage() {
       showSnackbar('เข้าสู่ระบบไม่สำเร็จ', 'error');
     }
   };
+
+  useEffect(() => {
+    if (userData) {
+      window.location.href = '/';
+    }
+  }, [userData]);
+
   return (
     <div className='flex min-h-screen'>
       <div className='hidden lg:flex items-center justify-center flex-1 bg-white text-black'>

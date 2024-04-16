@@ -1,10 +1,6 @@
 import { LinkType } from '@/types/link.type';
 
-export const UserLinks: LinkType[] = [
-  {
-    name: 'Home',
-    path: '/',
-  },
+export const Links: LinkType[] = [
   {
     name: 'Login',
     path: '/login',
@@ -12,6 +8,21 @@ export const UserLinks: LinkType[] = [
   {
     name: 'Register',
     path: '/register',
+  },
+];
+
+export const UserLinks: LinkType[] = [
+  {
+    name: 'Home',
+    path: '/',
+  },
+  {
+    name: 'Board Games',
+    path: '/board-games',
+  },
+  {
+    name: 'About us',
+    path: '/about-us',
   },
 ];
 
