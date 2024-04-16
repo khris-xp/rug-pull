@@ -1,6 +1,8 @@
 import Banner from '@/components/Banner/Banner';
 import BentoCard from '@/components/Card/BentoCard';
 import ProductCard from '@/components/Card/ProductCard';
+import Footer from '@/components/Footer/Footer';
+import { FooterNavigation } from '@/constants/footer';
 import Container from '@/layouts/Container';
 import { boardGameService } from '@/services/board-game.service';
 import { BoardGameModelType } from '@/types/board-game.type';
@@ -49,6 +51,11 @@ export default function HomePage() {
           ))}
         </div>
       </Container>
+      <Footer
+        props={{
+          footer: FooterNavigation,
+        }}
+      />
       {/* <Container
         variant={{
           display: 'flex',

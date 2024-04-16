@@ -52,23 +52,9 @@ export const useLoginValidate = () => {
     return isValid;
   };
 
-  const fields: ValidationFields = {
-    email: {
-      value: '',
-      errorSetter: setErrors,
-      errorMessage: 'Email is required',
-    },
-    password: {
-      value: '',
-      errorSetter: setErrors,
-      errorMessage: 'Password is required',
-    },
-  };
-
   return {
     errors,
     validateField,
     setErrors,
-    fields,
   };
 };
