@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export interface ValidationField {
-  value: string | File | string[];
+  value: string | File | string[] | number;
   errorSetter: React.Dispatch<React.SetStateAction<ValidationErrors>>;
   valueRef?: string;
   errorMessage: string;
@@ -15,7 +15,7 @@ export interface ValidationErrors {
   [key: string]: string | null;
 }
 
-export const useLoginValidate = () => {
+export const useValidate = () => {
   const [errors, setErrors] = useState<ValidationErrors>({});
 
   const validateField = (fields: ValidationFields): boolean => {

@@ -8,6 +8,5 @@ export type RegisterDto = {
   lastName: string;
   email: string;
   password: string;
-  pictureProfile: string;
   age: number;
 };

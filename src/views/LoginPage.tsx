@@ -3,7 +3,7 @@ import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
-import { useLoginValidate } from '@/hooks/useValidate';
+import { useValidate } from '@/hooks/useValidate';
 import { generateLoginFields } from '@/mappers/auth.mapper';
 import { authService } from '@/services/auth.service';
 import { userService } from '@/services/user.service';
@@ -19,7 +19,7 @@ export default function LoginPage() {
   const userData = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
-  const { validateField, errors, setErrors } = useLoginValidate();
+  const { validateField, errors, setErrors } = useValidate();
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -27,7 +27,7 @@ export default function LoginPage() {
     validateField(fields);
     try {
       if (!email || !password) {
-        showSnackbar('กรุณากรอกข้อมูลให้ครบ', 'error');
+        showSnackbar('Please fill in all fields', 'error');
       } else {
         const loginRequest = { email, password };
         const response = await authService.login(loginRequest);
@@ -40,13 +40,13 @@ export default function LoginPage() {
               accessToken: response.data.accessToken,
             })
           );
-          showSnackbar('เข้าสู่ระบบสำเร็จ', 'success');
+          showSnackbar('Login Successfully', 'success');
         } else {
-          showSnackbar('เข้าสู่ระบบไม่สำเร็จ', 'error');
+          showSnackbar('Failed to login', 'error');
         }
       }
     } catch (error) {
-      showSnackbar('เข้าสู่ระบบไม่สำเร็จ', 'error');
+      showSnackbar('Failed to login', 'error');
     }
   };
 
