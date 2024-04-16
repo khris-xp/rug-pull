@@ -1,4 +1,10 @@
-export default function Header() {
+import { LinkType } from '@/types/link.type';
+
+type HeaderProps = {
+  links: LinkType[];
+};
+
+export default function Header(props: HeaderProps) {
   return (
     <div className='navbar bg-base-100'>
       <div className='navbar-start'>
@@ -23,12 +29,11 @@ export default function Header() {
             tabIndex={0}
             className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
           >
-            <li>
-              <a href='/login'>Login</a>
-            </li>
-            <li>
-              <a href='/register'>Register</a>
-            </li>
+            {props.links.map((link) => (
+              <li key={link.path}>
+                <a href={link.path}>{link.name}</a>
+              </li>
+            ))}
           </ul>
         </div>
         <a href='/' className='btn btn-ghost text-xl'>

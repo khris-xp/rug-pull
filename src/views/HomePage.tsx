@@ -29,19 +29,40 @@ export default function HomePage() {
         variant={{
           display: 'flex',
           justifyContent: 'center',
-          container: true,
+          container: false,
           margin: 'mx-auto',
         }}
       >
         <BentoCard />
       </Container>
-      <div className='flex justify-center container mx-auto'>
-        <div className='grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3'>
+      <Container
+        variant={{
+          display: 'flex',
+          justifyContent: 'center',
+          container: false,
+          margin: 'mx-auto',
+        }}
+      >
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
           {boardGames.map((boardGame) => (
             <ProductCard key={boardGame._id} boardGame={boardGame} />
           ))}
         </div>
-      </div>
+      </Container>
+      {/* <Container
+        variant={{
+          display: 'flex',
+          justifyContent: 'center',
+          container: true,
+          margin: 'mx-auto',
+        }}
+      >
+        <Pagination
+          totalItems={}
+          itemsPerPage={}
+          currentPage={}
+        />
+      </Container> */}
     </Fragment>
   );
 }
