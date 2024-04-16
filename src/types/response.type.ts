@@ -11,5 +11,6 @@ export type APIResponseType<T> = {
 
 export type BoardGameModelListResponse =
   APIResponseType<CommonBoardGameModelType>;
+export type BoardGameModelResponse = APIResponseType<CommonBoardGameModelType>;
 export type AuthModelResponse = APIResponseType<AuthResponseType>;
 export type UserModelResponse = APIResponseType<UserType>;
