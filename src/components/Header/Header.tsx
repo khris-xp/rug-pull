@@ -2,6 +2,7 @@ import { setAuthState } from '@/store/auth/auth.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { LinkType } from '@/types/link.type';
 import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
 
 type HeaderProps = {
   links: LinkType[];
@@ -42,7 +43,7 @@ export default function Header(props: HeaderProps) {
           >
             {props.links.map((link) => (
               <li key={link.path}>
-                <a href={link.path}>{link.name}</a>
+                <Link to={link.path}>{link.name}</Link>
               </li>
             ))}
           </ul>
@@ -55,7 +56,7 @@ export default function Header(props: HeaderProps) {
         <ul className='menu menu-horizontal px-1'>
           {props.links.map((link) => (
             <li key={link.path}>
-              <a href={link.path}>{link.name}</a>
+              <Link to={link.path}>{link.name}</Link>
             </li>
           ))}
         </ul>
@@ -137,10 +138,10 @@ export default function Header(props: HeaderProps) {
         ) : (
           <ul className='menu menu-horizontal px-1'>
             <li>
-              <a href='/login'>Login</a>
+              <Link to='/login'>Login</Link>
             </li>
             <li>
-              <a href='/register'>Register</a>
+              <Link to='/register'>Register</Link>
             </li>
           </ul>
         )}

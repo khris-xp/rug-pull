@@ -20,8 +20,8 @@ export default function HomePage() {
   }, [dispatch]);
 
   useEffect(() => {
-    fetchBoardGames();
-  }, [fetchBoardGames]);
+    if (boardGames.length === 0) fetchBoardGames();
+  }, [boardGames.length, fetchBoardGames]);
   return (
     <Fragment>
       <Banner
@@ -59,20 +59,6 @@ export default function HomePage() {
           footer: FooterNavigation,
         }}
       />
-      {/* <Container
-        variant={{
-          display: 'flex',
-          justifyContent: 'center',
-          container: true,
-          margin: 'mx-auto',
-        }}
-      >
-        <Pagination
-          totalItems={}
-          itemsPerPage={}
-          currentPage={}
-        />
-      </Container> */}
     </Fragment>
   );
 }

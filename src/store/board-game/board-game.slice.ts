@@ -12,7 +12,7 @@ const initialState: BoardGameAppState = {
 };
 
 export const boardGameSlice = createSlice({
-  name: 'boardGame',
+  name: 'boardGames',
   initialState,
   reducers: {
     setBoardGameList: (state, action: PayloadAction<BoardGameModelType[]>) => {

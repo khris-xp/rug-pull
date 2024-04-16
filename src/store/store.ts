@@ -22,7 +22,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['auth', 'board-game'],
+  whitelist: ['auth', 'boardGames'],
 };
 
 const persistedReducers = persistReducer(persistConfig, rootReducer);

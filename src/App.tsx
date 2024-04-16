@@ -1,4 +1,5 @@
 import BaseLayout from '@/layouts/BaseLayout';
+import BoardGamePage from '@/views/BoardGamePage';
 import HomePage from '@/views/HomePage';
 import LoginPage from '@/views/LoginPage';
 import ProfilePage from '@/views/ProfilePage';
@@ -17,6 +18,7 @@ function App() {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/profile' element={<ProfilePage />} />
+          <Route path='/board-games' element={<BoardGamePage />} />
         </Route>
         <Route path='*' element={<NoPage />} />
       </Routes>
