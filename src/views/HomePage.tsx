@@ -5,20 +5,23 @@ import Footer from '@/components/Footer/Footer';
 import { FooterNavigation } from '@/constants/footer';
 import Container from '@/layouts/Container';
 import { boardGameService } from '@/services/board-game.service';
-import { BoardGameModelType } from '@/types/board-game.type';
-import { useEffect, useState } from 'react';
+import { setBoardGameList } from '@/store/board-game/board-game.slice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useCallback, useEffect } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 
 export default function HomePage() {
-  const [boardGames, setBoardGames] = useState<BoardGameModelType[]>([]);
-  async function fetchBoardGames() {
+  const dispatch = useAppDispatch();
+  const boardGames = useAppSelector((state) => state.boardGames.boardGameList);
+
+  const fetchBoardGames = useCallback(async () => {
     const response = await boardGameService.getAllBoardGame('1', '10');
-    setBoardGames(response.data.data);
-  }
+    dispatch(setBoardGameList(response.data.data));
+  }, [dispatch]);
 
   useEffect(() => {
     fetchBoardGames();
-  }, []);
+  }, [fetchBoardGames]);
   return (
     <Fragment>
       <Banner

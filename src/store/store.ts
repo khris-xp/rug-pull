@@ -10,17 +10,19 @@ import {
   REHYDRATE,
 } from 'redux-persist';
 import { authSlice } from './auth/auth.slice';
+import { boardGameSlice } from './board-game/board-game.slice';
 import storage from './storage';
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
+  boardGames: boardGameSlice.reducer,
 });
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['auth'],
+  whitelist: ['auth', 'board-game'],
 };
 
 const persistedReducers = persistReducer(persistConfig, rootReducer);
