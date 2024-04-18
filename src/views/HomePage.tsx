@@ -1,6 +1,5 @@
 import Banner from '@/components/Banner/Banner';
 import BentoCard from '@/components/Card/BentoCard';
-import ProductCard from '@/components/Card/ProductCard';
 import Footer from '@/components/Footer/Footer';
 import { FooterNavigation } from '@/constants/footer';
 import Container from '@/layouts/Container';
@@ -8,7 +7,6 @@ import { boardGameService } from '@/services/board-game.service';
 import { setBoardGameList } from '@/store/board-game/board-game.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useCallback, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
@@ -40,7 +38,7 @@ export default function HomePage() {
       >
         <BentoCard />
       </Container>
-      <Container
+      {/* <Container
         variant={{
           display: 'flex',
           justifyContent: 'center',
@@ -55,7 +53,7 @@ export default function HomePage() {
             </Link>
           ))}
         </div>
-      </Container>
+      </Container> */}
       <Footer
         props={{
           footer: FooterNavigation,
