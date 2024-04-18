@@ -3,23 +3,23 @@ import BentoCard from '@/components/Card/BentoCard';
 import Footer from '@/components/Footer/Footer';
 import { FooterNavigation } from '@/constants/footer';
 import Container from '@/layouts/Container';
-import { boardGameService } from '@/services/board-game.service';
-import { setBoardGameList } from '@/store/board-game/board-game.slice';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { useCallback, useEffect } from 'react';
+// import { boardGameService } from '@/services/board-game.service';
+// import { setBoardGameList } from '@/store/board-game/board-game.slice';
+// import { useAppDispatch, useAppSelector } from '@/store/hooks';
+// import { useCallback, useEffect } from 'react';
 
 export default function HomePage() {
-  const dispatch = useAppDispatch();
-  const boardGames = useAppSelector((state) => state.boardGames.boardGameList);
+  // const dispatch = useAppDispatch();
+  // const boardGames = useAppSelector((state) => state.boardGames.boardGameList);
 
-  const fetchBoardGames = useCallback(async () => {
-    const response = await boardGameService.getAllBoardGame('1', '10');
-    dispatch(setBoardGameList(response.data.data));
-  }, [dispatch]);
+  // const fetchBoardGames = useCallback(async () => {
+  //   const response = await boardGameService.getAllBoardGame('1', '10');
+  //   dispatch(setBoardGameList(response.data.data));
+  // }, [dispatch]);
 
-  useEffect(() => {
-    if (boardGames.length === 0) fetchBoardGames();
-  }, [boardGames.length, fetchBoardGames]);
+  // useEffect(() => {
+  //   if (boardGames.length === 0) fetchBoardGames();
+  // }, [boardGames.length, fetchBoardGames]);
   return (
     <div>
       <Banner
