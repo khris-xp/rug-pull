@@ -3,15 +3,12 @@ import Dropdown from '@/components/Button/Dropdown';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
-import { statusService } from '@/services/status.service';
+import { categoryService } from '@/services/category.service';
+import { setCategoryList } from '@/store/category/category.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setStatusList } from '@/store/status/status.slice';
-import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Fragment } from 'react/jsx-runtime';
+import { Fragment, useState } from 'react';
 
-export default function StatusDashboardDetailsPage() {
-  const { id } = useParams();
+export default function CreateCategoryPage() {
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [topics, setTopics] = useState<string>('');
@@ -20,13 +17,6 @@ export default function StatusDashboardDetailsPage() {
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbarToast();
 
-  const fetchStatus = useCallback(async () => {
-    const response = await statusService.getStatusById(id);
-    setName(response.data.name);
-    setDescription(response.data.description);
-    setTopics(response.data.topics);
-  }, [id]);
-
   function toggleTopicsDropdown() {
     setTopicsDropdown(!topicsDropdown);
   }
@@ -34,7 +24,7 @@ export default function StatusDashboardDetailsPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await statusService.updateStatus(id, {
+      const response = await categoryService.createCategory({
         name,
         description,
         topics,
@@ -42,33 +32,29 @@ export default function StatusDashboardDetailsPage() {
       setName('');
       setDescription('');
       setTopics('');
-      const status_response = await statusService.getAllStatus();
-      dispatch(setStatusList(status_response.data));
+      const category_response = await categoryService.getAllCategory();
+      dispatch(setCategoryList(category_response.data));
 
       if (response.success) {
-        showSnackbar('Status edit successfully', 'success');
-        window.location.href = '/dashboard/status';
+        showSnackbar('Category created successfully', 'success');
+        window.location.href = '/dashboard/category';
       } else {
-        showSnackbar('Failed to edit status', 'error');
+        showSnackbar('Failed to create category', 'error');
       }
     } catch (error) {
-      showSnackbar('Failed to edit status', 'error');
+      showSnackbar('Failed to create category', 'error');
     }
   };
-
-  useEffect(() => {
-    fetchStatus();
-  }, [fetchStatus]);
   return (
     <Fragment>
       <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
-        <h2 className='text-2xl font-semibold mb-4'>Edit Status</h2>
+        <h2 className='text-2xl font-semibold mb-4'>Create Category</h2>
 
         <form onSubmit={handleSubmit}>
           <div className='grid grid-cols-2 gap-4'>
             <div>
               <label className='block text-sm font-medium text-gray-700'>
-                Status Name
+                Category Name
               </label>
               <Spacer margin='my-2' />
               <Input
@@ -76,14 +62,14 @@ export default function StatusDashboardDetailsPage() {
                   variant: 'text',
                   value: name,
                   onChange: (e) => setName(e.target.value),
-                  placeholder: 'Status Name',
+                  placeholder: 'Category Name',
                   isFull: true,
                 }}
               />
             </div>
             <div>
               <label className='block text-sm font-medium text-gray-700'>
-                Status Description
+                Category Description
               </label>
               <Spacer margin='my-2' />
               <Input
@@ -91,7 +77,7 @@ export default function StatusDashboardDetailsPage() {
                   variant: 'text',
                   value: description,
                   onChange: (e) => setDescription(e.target.value),
-                  placeholder: 'Status Name',
+                  placeholder: 'Category Description',
                   isFull: true,
                 }}
               />
@@ -100,7 +86,7 @@ export default function StatusDashboardDetailsPage() {
 
           <div className='mt-4'>
             <label className='block text-sm font-medium text-gray-700'>
-              Status Topics
+              Category Topics
             </label>
             <Spacer margin='my-2' />
             <Dropdown
@@ -119,7 +105,7 @@ export default function StatusDashboardDetailsPage() {
             <Button
               props={{
                 type: 'submit',
-                text: 'Edit Status',
+                text: 'Create Category',
               }}
               variant={{
                 textColor: 'text-white',

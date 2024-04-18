@@ -77,7 +77,7 @@ export default function CreateStatusPage() {
                   variant: 'text',
                   value: description,
                   onChange: (e) => setDescription(e.target.value),
-                  placeholder: 'Status Name',
+                  placeholder: 'Status Description',
                   isFull: true,
                 }}
               />

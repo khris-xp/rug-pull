@@ -11,6 +11,7 @@ import {
 } from 'redux-persist';
 import { authSlice } from './auth/auth.slice';
 import { boardGameSlice } from './board-game/board-game.slice';
+import { categorySlice } from './category/category.slice';
 import { roomSlice } from './room/room.slice';
 import { statusSlice } from './status/status.slice';
 import storage from './storage';
@@ -22,13 +23,14 @@ const rootReducer = combineReducers({
   rooms: roomSlice.reducer,
   topics: topicsSlice.reducer,
   status: statusSlice.reducer,
+  categories: categorySlice.reducer,
 });
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['auth', 'boardGames', 'rooms', 'topics', 'status'],
+  whitelist: ['auth', 'boardGames', 'rooms', 'topics', 'status', 'categories'],
 };
 
 const persistedReducers = persistReducer(persistConfig, rootReducer);

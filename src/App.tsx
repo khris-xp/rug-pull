@@ -1,6 +1,9 @@
 import BaseLayout from '@/layouts/BaseLayout';
 import BoardGameDetailsPage from '@/views/BoardGameDetailsPage';
 import BoardGamePage from '@/views/BoardGamePage';
+import CategoryDashboardDetailsPage from '@/views/CategoryDashboardDetailsPage';
+import CateogryDashboradPage from '@/views/CategoryDashboardPage';
+import CreateCategoryPage from '@/views/CreateCategoryPage';
 import CreateRoomPage from '@/views/CreateRoomPage';
 import CreateStatusPage from '@/views/CreateStatusPage';
 import CreateTopicsPage from '@/views/CreateTopicsPage';
@@ -48,6 +51,18 @@ function App() {
           <Route
             path='/dashboard/status/:id'
             element={<StatusDashboardDetailsPage />}
+          />
+          <Route
+            path='/dashboard/category'
+            element={<CateogryDashboradPage />}
+          />
+          <Route
+            path='/dashboard/create-category'
+            element={<CreateCategoryPage />}
+          />
+          <Route
+            path='/dashboard/category/:id'
+            element={<CategoryDashboardDetailsPage />}
           />
         </Route>
         <Route path='*' element={<NoPage />} />
