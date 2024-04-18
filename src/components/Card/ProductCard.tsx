@@ -1,5 +1,6 @@
 import { BoardGameModelType } from '@/types/board-game.type';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 import Button from '../Button/Button';
 import Spacer from '../Spacer/Spacer';
 
@@ -45,24 +46,26 @@ export default function ProductCard(props: ProductCardProps) {
           </p>
         </div>
         <Spacer margin='mb-6' />
-        <Button
-          variant={{
-            textColor: 'text-white',
-            padding: 'w-full px-5 py-2.5',
-            fontWeight: 'font-normal',
-            borderRadius: 'rounded-lg',
-            color: 'bg-primary',
-            textAlign: 'center',
-            textSize: 'text-base',
-            isHover: true,
-          }}
-          props={{
-            onClick: () => null,
-            text: 'Add to Cart',
-            type: 'button',
-            icon: faBullseye,
-          }}
-        />
+        <Link to={`/board-game/${props.boardGame._id}`}>
+          <Button
+            variant={{
+              textColor: 'text-white',
+              padding: 'w-full px-5 py-2.5',
+              fontWeight: 'font-normal',
+              borderRadius: 'rounded-lg',
+              color: 'bg-primary',
+              textAlign: 'center',
+              textSize: 'text-base',
+              isHover: true,
+            }}
+            props={{
+              onClick: () => null,
+              text: 'Booked',
+              type: 'button',
+              icon: faBullseye,
+            }}
+          />
+        </Link>
       </div>
     </div>
   );

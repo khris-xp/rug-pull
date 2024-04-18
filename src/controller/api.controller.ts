@@ -19,6 +19,8 @@ export async function apiController<T>(
     | StatusDto
     | CateogryDto
     | TableDto
+    | FormData
+    | { public_id: string }
 ): Promise<T> {
   try {
     const response = await axiosInstance.request({ url, method, data });

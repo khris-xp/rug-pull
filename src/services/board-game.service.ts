@@ -15,7 +15,9 @@ export const boardGameService = {
       'get'
     );
   },
-  getBoardGameById: async (id: string): Promise<BoardGameModelResponse> => {
+  getBoardGameById: async (
+    id: string | undefined
+  ): Promise<BoardGameModelResponse> => {
     return await apiController(`/api/board-games/${id}`, 'get');
   },
   createBoardGame: async (
@@ -24,7 +26,7 @@ export const boardGameService = {
     return await apiController(`/api/board-games`, 'post', boardGameRequest);
   },
   updateBoardGame: async (
-    id: string,
+    id: string | undefined,
     boardGameRequest: BoardGameDto
   ): Promise<BoardGameModelResponse> => {
     return await apiController(

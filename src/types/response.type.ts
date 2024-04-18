@@ -5,6 +5,7 @@ import { RoomModelType } from './room.type';
 import { StatusModelType } from './status.type';
 import { TableModelType } from './table.type';
 import { TopicsType } from './topics.type';
+import { ImageModelType } from './upload.type';
 import { UserType } from './user.type';
 
 export type APIResponseType<T> = {
@@ -29,3 +30,4 @@ export type CategoryModelListResponse = APIResponseType<CategoryModelType[]>;
 export type CategoryModelResponse = APIResponseType<CategoryModelType>;
 export type TableModelListResponse = APIResponseType<TableModelType[]>;
 export type TableModelResponse = APIResponseType<TableModelType>;
+export type ImageModelResponse = APIResponseType<ImageModelType>;

@@ -1,8 +1,11 @@
 import BaseLayout from '@/layouts/BaseLayout';
+import BoardGameDashboardDetailsPage from '@/views/BoardGameDashboardDetailsPage';
 import BoardGameDetailsPage from '@/views/BoardGameDetailsPage';
 import BoardGamePage from '@/views/BoardGamePage';
+import BoardGameDasgboardPage from '@/views/BoardGameDashboardPage';
 import CategoryDashboardDetailsPage from '@/views/CategoryDashboardDetailsPage';
 import CateogryDashboradPage from '@/views/CategoryDashboardPage';
+import CreateBoardGamePage from '@/views/CreateBoardGamePage';
 import CreateCategoryPage from '@/views/CreateCategoryPage';
 import CreateRoomPage from '@/views/CreateRoomPage';
 import CreateStatusPage from '@/views/CreateStatusPage';
@@ -36,6 +39,18 @@ function App() {
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/board-games' element={<BoardGamePage />} />
           <Route path='/board-game/:id' element={<BoardGameDetailsPage />} />
+          <Route
+            path='/dashboard/board-game'
+            element={<BoardGameDasgboardPage />}
+          />
+          <Route
+            path='/dashboard/create-boardgame'
+            element={<CreateBoardGamePage />}
+          />
+          <Route
+            path='/dashboard/board-game/:id'
+            element={<BoardGameDashboardDetailsPage />}
+          />
           <Route path='/dashboard/room' element={<RoomDashboardPage />} />
           <Route
             path='/dashboard/room/:id'
