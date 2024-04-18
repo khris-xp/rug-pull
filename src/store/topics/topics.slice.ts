@@ -26,3 +26,5 @@ export const topicsSlice = createSlice({
     },
   },
 });
+
+export const { setTopicsList, setTopics, deleteTopics } = topicsSlice.actions;
