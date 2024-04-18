@@ -1,5 +1,6 @@
 import Banner from '@/components/Banner/Banner';
 import BentoCard from '@/components/Card/BentoCard';
+import ProductCard from '@/components/Card/ProductCard';
 import Footer from '@/components/Footer/Footer';
 import { FooterNavigation } from '@/constants/footer';
 import Container from '@/layouts/Container';
@@ -8,18 +9,17 @@ import { setBoardGameList } from '@/store/board-game/board-game.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ProductCard from '@/components/Card/ProductCard';
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
   const boardGames = useAppSelector((state) => state.boardGames.boardGameList);
 
   const fetchBoardGames = useCallback(async () => {
-    if (boardGames.length === 0) {
+    if (boardGames && boardGames.length === 0) {
       const response = await boardGameService.getAllBoardGame('1', '10');
       dispatch(setBoardGameList(response.data.data));
     }
-  }, [boardGames.length, dispatch]);
+  }, [boardGames, dispatch]);
 
   useEffect(() => {
     fetchBoardGames();
