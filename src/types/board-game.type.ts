@@ -4,6 +4,13 @@ export type CommonBoardGameModelType = {
   limit: number;
 };
 
+export type BoardGameModelDataType = {
+  boardGames: CommonBoardGameModelType;
+  totalPages: number;
+  currentPage: number;
+  totalItems: number;
+};
+
 export type BoardGameModelType = {
   _id: string;
   name: string;

@@ -1,34 +1,34 @@
-// import ProductCard from '@/components/Card/ProductCard';
-// import Input from '@/components/Input/Input';
-// import Skeleton from '@/components/Loading/Skeleton';
-// import Container from '@/layouts/Container';
-// import { boardGameService } from '@/services/board-game.service';
-// import { setBoardGameList } from '@/store/board-game/board-game.slice';
-// import { useAppDispatch, useAppSelector } from '@/store/hooks';
-// import { useCallback, useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
+import ProductCard from '@/components/Card/ProductCard';
+import Input from '@/components/Input/Input';
+import Skeleton from '@/components/Loading/Skeleton';
+import Container from '@/layouts/Container';
+import { boardGameService } from '@/services/board-game.service';
+import { setBoardGameList } from '@/store/board-game/board-game.slice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function BoardGamePage() {
-  // const [search, setSearch] = useState<string>('');
-  // const dispatch = useAppDispatch();
-  // const boardGames = useAppSelector((state) => state.boardGames.boardGameList);
+  const [search, setSearch] = useState<string>('');
+  const dispatch = useAppDispatch();
+  const boardGames = useAppSelector((state) => state.boardGames.boardGameList);
 
-  // const filteredBoardGames = boardGames.filter((boardGame) =>
-  //   boardGame.name.toLowerCase().includes(search.toLowerCase())
-  // );
+  const filteredBoardGames = boardGames.filter((boardGame) =>
+    boardGame.name.toLowerCase().includes(search.toLowerCase())
+  );
 
-  // const fetchBoardGames = useCallback(async () => {
-  //   const response = await boardGameService.getAllBoardGame('1', '10');
-  //   dispatch(setBoardGameList(response.data.data));
-  // }, [dispatch]);
+  const fetchBoardGames = useCallback(async () => {
+    const response = await boardGameService.getAllBoardGame('1', '10');
+    dispatch(setBoardGameList(response.data.boardGames.data));
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   if (boardGames.length === 0) fetchBoardGames();
-  // }, [boardGames.length, fetchBoardGames]);
+  useEffect(() => {
+    if (boardGames.length === 0) fetchBoardGames();
+  }, [boardGames.length, fetchBoardGames]);
 
   return (
-    <div>
-      {/* <Container
+    <>
+      <Container
         variant={{
           display: 'flex',
           justifyContent: 'center',
@@ -71,8 +71,7 @@ export default function BoardGamePage() {
             ))}
           </div>
         )}
-      </Container> */}
-      Board Game Page
-    </div>
+      </Container>
+    </>
   );
 }

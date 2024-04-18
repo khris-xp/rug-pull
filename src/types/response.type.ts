@@ -1,8 +1,5 @@
 import { AuthResponseType } from './auth.type';
-import {
-  BoardGameModelType,
-  CommonBoardGameModelType,
-} from './board-game.type';
+import { BoardGameModelDataType, BoardGameModelType } from './board-game.type';
 import { CategoryModelType } from './category.type';
 import { RoomModelType } from './room.type';
 import { StatusModelType } from './status.type';
@@ -18,7 +15,7 @@ export type APIResponseType<T> = {
 };
 
 export type BoardGameModelListResponse =
-  APIResponseType<CommonBoardGameModelType>;
+  APIResponseType<BoardGameModelDataType>;
 export type BoardGameModelResponse = APIResponseType<BoardGameModelType>;
 export type RoomModelListResponse = APIResponseType<RoomModelType[]>;
 export type RoomModelResponse = APIResponseType<RoomModelType>;

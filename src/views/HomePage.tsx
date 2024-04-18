@@ -15,18 +15,18 @@ export default function HomePage() {
   const boardGames = useAppSelector((state) => state.boardGames.boardGameList);
 
   const fetchBoardGames = useCallback(async () => {
-    if (boardGames && boardGames.length === 0) {
+    if (boardGames.length === 0) {
       const response = await boardGameService.getAllBoardGame('1', '10');
-      dispatch(setBoardGameList(response.data.data));
+      dispatch(setBoardGameList(response.data.boardGames.data));
     }
-  }, [boardGames, dispatch]);
+  }, [boardGames.length, dispatch]);
 
   useEffect(() => {
     fetchBoardGames();
   }, [fetchBoardGames]);
 
   return (
-    <div>
+    <>
       <Banner
         title='Welcome to Rug Pull'
         description='The best place to find rug pulls'
@@ -52,12 +52,15 @@ export default function HomePage() {
         }}
       >
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-          {boardGames &&
+          {boardGames && boardGames.length > 0 ? (
             boardGames.map((boardGame) => (
-              <Link to={`/board-game/${boardGame._id}`}>
-                <ProductCard key={boardGame._id} boardGame={boardGame} />
+              <Link key={boardGame._id} to={`/board-game/${boardGame._id}`}>
+                <ProductCard boardGame={boardGame} />
               </Link>
-            ))}
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       </Container>
       <Footer
@@ -65,6 +68,6 @@ export default function HomePage() {
           footer: FooterNavigation,
         }}
       />
-    </div>
+    </>
   );
 }
