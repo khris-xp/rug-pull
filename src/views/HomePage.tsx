@@ -23,7 +23,7 @@ export default function HomePage() {
     if (boardGames.length === 0) fetchBoardGames();
   }, [boardGames.length, fetchBoardGames]);
   return (
-    <>
+    <div>
       <Banner
         title='Welcome to Rug Pull'
         description='The best place to find rug pulls'
@@ -61,6 +61,6 @@ export default function HomePage() {
           footer: FooterNavigation,
         }}
       />
-    </>
+    </div>
   );
 }

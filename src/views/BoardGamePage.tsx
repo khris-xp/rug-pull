@@ -27,7 +27,7 @@ export default function BoardGamePage() {
   }, [boardGames.length, fetchBoardGames]);
 
   return (
-    <>
+    <div>
       <Container
         variant={{
           display: 'flex',
@@ -72,6 +72,6 @@ export default function BoardGamePage() {
           </div>
         )}
       </Container>
-    </>
+    </div>
   );
 }
