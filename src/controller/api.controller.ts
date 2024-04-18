@@ -3,6 +3,7 @@ import { BoardGameDto } from '@/common/dto/board-game.dto';
 import { CateogryDto } from '@/common/dto/category.dto';
 import { RoomDto } from '@/common/dto/room.dto';
 import { StatusDto } from '@/common/dto/status.dto';
+import { TableDto } from '@/common/dto/table.dto';
 import { TopicsDto } from '@/common/dto/topics.dto';
 import axiosInstance from '@/services/api.service';
 
@@ -17,6 +18,7 @@ export async function apiController<T>(
     | TopicsDto
     | StatusDto
     | CateogryDto
+    | TableDto
 ): Promise<T> {
   try {
     const response = await axiosInstance.request({ url, method, data });

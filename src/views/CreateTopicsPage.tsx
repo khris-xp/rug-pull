@@ -5,7 +5,7 @@ import useSnackbarToast from '@/hooks/useSnackbar';
 import { topicsService } from '@/services/topics.service';
 import { useAppDispatch } from '@/store/hooks';
 import { setTopicsList } from '@/store/topics/topics.slice';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 
 export default function CreateTopicsPage() {
   const [title, setTitle] = useState<string>('');
@@ -33,64 +33,62 @@ export default function CreateTopicsPage() {
     }
   };
   return (
-    <Fragment>
-      <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
-        <h2 className='text-2xl font-semibold mb-4'>Create Topics</h2>
+    <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
+      <h2 className='text-2xl font-semibold mb-4'>Create Topics</h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className='grid grid-cols-2 gap-4'>
-            <div>
-              <label className='block text-sm font-medium text-gray-700'>
-                Topics Title
-              </label>
-              <Spacer margin='my-2' />
-              <Input
-                props={{
-                  variant: 'text',
-                  value: title,
-                  onChange: (e) => setTitle(e.target.value),
-                  placeholder: 'Topics Title',
-                  isFull: true,
-                }}
-              />
-            </div>
-            <div>
-              <label className='block text-sm font-medium text-gray-700'>
-                Description
-              </label>
-              <Spacer margin='my-2' />
-              <Input
-                props={{
-                  variant: 'text',
-                  value: description,
-                  onChange: (e) => setDescription(e.target.value),
-                  placeholder: 'Topics Description',
-                  isFull: true,
-                }}
-              />
-            </div>
-          </div>
-
-          <div className='mt-6'>
-            <Button
+      <form onSubmit={handleSubmit}>
+        <div className='grid grid-cols-2 gap-4'>
+          <div>
+            <label className='block text-sm font-medium text-gray-700'>
+              Topics Title
+            </label>
+            <Spacer margin='my-2' />
+            <Input
               props={{
-                type: 'submit',
-                text: 'Create Topics',
-              }}
-              variant={{
-                textColor: 'text-white',
-                isHover: true,
-                padding: 'w-full px-5 py-2.5',
-                fontWeight: 'font-normal',
-                borderRadius: 'rounded-lg',
-                color: 'bg-primary',
-                textAlign: 'center',
-                textSize: 'text-base',
+                variant: 'text',
+                value: title,
+                onChange: (e) => setTitle(e.target.value),
+                placeholder: 'Topics Title',
+                isFull: true,
               }}
             />
           </div>
-        </form>
-      </div>
-    </Fragment>
+          <div>
+            <label className='block text-sm font-medium text-gray-700'>
+              Description
+            </label>
+            <Spacer margin='my-2' />
+            <Input
+              props={{
+                variant: 'text',
+                value: description,
+                onChange: (e) => setDescription(e.target.value),
+                placeholder: 'Topics Description',
+                isFull: true,
+              }}
+            />
+          </div>
+        </div>
+
+        <div className='mt-6'>
+          <Button
+            props={{
+              type: 'submit',
+              text: 'Create Topics',
+            }}
+            variant={{
+              textColor: 'text-white',
+              isHover: true,
+              padding: 'w-full px-5 py-2.5',
+              fontWeight: 'font-normal',
+              borderRadius: 'rounded-lg',
+              color: 'bg-primary',
+              textAlign: 'center',
+              textSize: 'text-base',
+            }}
+          />
+        </div>
+      </form>
+    </div>
   );
 }

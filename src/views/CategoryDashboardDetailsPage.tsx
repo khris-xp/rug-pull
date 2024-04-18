@@ -8,7 +8,6 @@ import { setCategoryList } from '@/store/category/category.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Fragment } from 'react/jsx-runtime';
 
 export default function CategoryDashboardDetailsPage() {
   const { id } = useParams();
@@ -60,81 +59,79 @@ export default function CategoryDashboardDetailsPage() {
     fetchCategory();
   }, [fetchCategory]);
   return (
-    <Fragment>
-      <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
-        <h2 className='text-2xl font-semibold mb-4'>Edit Category</h2>
+    <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
+      <h2 className='text-2xl font-semibold mb-4'>Edit Category</h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className='grid grid-cols-2 gap-4'>
-            <div>
-              <label className='block text-sm font-medium text-gray-700'>
-                Category Name
-              </label>
-              <Spacer margin='my-2' />
-              <Input
-                props={{
-                  variant: 'text',
-                  value: name,
-                  onChange: (e) => setName(e.target.value),
-                  placeholder: 'Category Name',
-                  isFull: true,
-                }}
-              />
-            </div>
-            <div>
-              <label className='block text-sm font-medium text-gray-700'>
-                Category Description
-              </label>
-              <Spacer margin='my-2' />
-              <Input
-                props={{
-                  variant: 'text',
-                  value: description,
-                  onChange: (e) => setDescription(e.target.value),
-                  placeholder: 'Category Name',
-                  isFull: true,
-                }}
-              />
-            </div>
-          </div>
-
-          <div className='mt-4'>
+      <form onSubmit={handleSubmit}>
+        <div className='grid grid-cols-2 gap-4'>
+          <div>
             <label className='block text-sm font-medium text-gray-700'>
-              Category Topics
+              Category Name
             </label>
             <Spacer margin='my-2' />
-            <Dropdown
+            <Input
               props={{
-                onClick: () => toggleTopicsDropdown(),
-                text: topics || 'Topics',
-                list: topicsStore.map((topic) => topic.title),
-                open: topicsDropdown,
-                onToggle: () => toggleTopicsDropdown(),
-                onSelectItem: (e: string) => setTopics(e),
+                variant: 'text',
+                value: name,
+                onChange: (e) => setName(e.target.value),
+                placeholder: 'Category Name',
+                isFull: true,
               }}
             />
           </div>
+          <div>
+            <label className='block text-sm font-medium text-gray-700'>
+              Category Description
+            </label>
+            <Spacer margin='my-2' />
+            <Input
+              props={{
+                variant: 'text',
+                value: description,
+                onChange: (e) => setDescription(e.target.value),
+                placeholder: 'Category Name',
+                isFull: true,
+              }}
+            />
+          </div>
+        </div>
 
-          <div className='mt-6'>
-            <Button
-              props={{
-                type: 'submit',
-                text: 'Edit Category',
-              }}
-              variant={{
-                textColor: 'text-white',
-                isHover: true,
-                padding: 'w-full px-5 py-2.5',
-                fontWeight: 'font-normal',
-                borderRadius: 'rounded-lg',
-                color: 'bg-primary',
-                textAlign: 'center',
-                textSize: 'text-base',
-              }}
-            />
-          </div>
-        </form>
-      </div>
-    </Fragment>
+        <div className='mt-4'>
+          <label className='block text-sm font-medium text-gray-700'>
+            Category Topics
+          </label>
+          <Spacer margin='my-2' />
+          <Dropdown
+            props={{
+              onClick: () => toggleTopicsDropdown(),
+              text: topics || 'Topics',
+              list: topicsStore.map((topic) => topic.title),
+              open: topicsDropdown,
+              onToggle: () => toggleTopicsDropdown(),
+              onSelectItem: (e: string) => setTopics(e),
+            }}
+          />
+        </div>
+
+        <div className='mt-6'>
+          <Button
+            props={{
+              type: 'submit',
+              text: 'Edit Category',
+            }}
+            variant={{
+              textColor: 'text-white',
+              isHover: true,
+              padding: 'w-full px-5 py-2.5',
+              fontWeight: 'font-normal',
+              borderRadius: 'rounded-lg',
+              color: 'bg-primary',
+              textAlign: 'center',
+              textSize: 'text-base',
+            }}
+          />
+        </div>
+      </form>
+    </div>
   );
 }

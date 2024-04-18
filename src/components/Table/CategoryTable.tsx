@@ -3,7 +3,7 @@ import { categoryService } from '@/services/category.service';
 import { setCategoryList } from '@/store/category/category.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { faCaretSquareRight } from '@fortawesome/free-solid-svg-icons';
-import { Fragment, useCallback, useEffect } from 'react';
+import {  useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../Button/Button';
 
@@ -36,7 +36,7 @@ export default function CategoryTable() {
     fetchCategory();
   }, [fetchCategory]);
   return (
-    <Fragment>
+    <>
       <div className='flex justify-end items-center mr-10'>
         <Link to='/dashboard/create-category'>
           <Button
@@ -84,6 +84,6 @@ export default function CategoryTable() {
           </tbody>
         </table>
       </div>
-    </Fragment>
+    </>
   );
 }

@@ -9,7 +9,6 @@ import { setBoardGameList } from '@/store/board-game/board-game.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Fragment } from 'react/jsx-runtime';
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
@@ -24,7 +23,7 @@ export default function HomePage() {
     if (boardGames.length === 0) fetchBoardGames();
   }, [boardGames.length, fetchBoardGames]);
   return (
-    <Fragment>
+    <>
       <Banner
         title='Welcome to Rug Pull'
         description='The best place to find rug pulls'
@@ -62,6 +61,6 @@ export default function HomePage() {
           footer: FooterNavigation,
         }}
       />
-    </Fragment>
+    </>
   );
 }

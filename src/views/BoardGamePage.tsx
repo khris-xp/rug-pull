@@ -7,7 +7,6 @@ import { setBoardGameList } from '@/store/board-game/board-game.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Fragment } from 'react/jsx-runtime';
 
 export default function BoardGamePage() {
   const [search, setSearch] = useState<string>('');
@@ -28,7 +27,7 @@ export default function BoardGamePage() {
   }, [boardGames.length, fetchBoardGames]);
 
   return (
-    <Fragment>
+    <>
       <Container
         variant={{
           display: 'flex',
@@ -73,6 +72,6 @@ export default function BoardGamePage() {
           </div>
         )}
       </Container>
-    </Fragment>
+    </>
   );
 }

@@ -4,7 +4,6 @@ import { setRoomList } from '@/store/room/room.slice';
 import { faDoorOpen } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Fragment } from 'react/jsx-runtime';
 import Button from '../Button/Button';
 
 export default function RoomTable() {
@@ -23,7 +22,7 @@ export default function RoomTable() {
   }, [fetchRooms]);
 
   return (
-    <Fragment>
+    <>
       <div className='flex justify-end items-center mr-10'>
         <Link to='/dashboard/create-room'>
           <Button
@@ -72,6 +71,6 @@ export default function RoomTable() {
           </tbody>
         </table>
       </div>
-    </Fragment>
+    </>
   );
 }

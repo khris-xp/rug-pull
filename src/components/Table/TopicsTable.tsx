@@ -5,7 +5,6 @@ import { setTopicsList } from '@/store/topics/topics.slice';
 import { faAtom } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Fragment } from 'react/jsx-runtime';
 import Button from '../Button/Button';
 
 export default function TopicsTable() {
@@ -38,7 +37,7 @@ export default function TopicsTable() {
   }, [fetchTopics]);
 
   return (
-    <Fragment>
+    <>
       <div className='flex justify-end items-center mr-10'>
         <Link to='/dashboard/create-topics'>
           <Button
@@ -85,6 +84,6 @@ export default function TopicsTable() {
           </tbody>
         </table>
       </div>
-    </Fragment>
+    </>
   );
 }

@@ -6,6 +6,7 @@ import {
 import { CategoryModelType } from './category.type';
 import { RoomModelType } from './room.type';
 import { StatusModelType } from './status.type';
+import { TableModelType } from './table.type';
 import { TopicsType } from './topics.type';
 import { UserType } from './user.type';
 
@@ -29,3 +30,5 @@ export type StatusModelListResponse = APIResponseType<StatusModelType[]>;
 export type StatusModelResponse = APIResponseType<StatusModelType>;
 export type CategoryModelListResponse = APIResponseType<CategoryModelType[]>;
 export type CategoryModelResponse = APIResponseType<CategoryModelType>;
+export type TableModelListResponse = APIResponseType<TableModelType[]>;
+export type TableModelResponse = APIResponseType<TableModelType>;

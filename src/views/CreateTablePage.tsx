@@ -1,78 +1,82 @@
 import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
+import useSnackbarToast from '@/hooks/useSnackbar';
+import { tableService } from '@/services/table.service';
+import { useAppDispatch } from '@/store/hooks';
+import { setTableList } from '@/store/table/table.slice';
 import { useState } from 'react';
 
-export default function CreateRoomPage() {
-  const [name, setName] = useState<string>('');
+export default function CreateTablePage() {
+  const [number, setNumber] = useState<string>('');
   const [capacity, setCapacity] = useState<number>();
+  const dispatch = useAppDispatch();
+  const { showSnackbar } = useSnackbarToast();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      if (capacity) {
+        const response = await tableService.createTable({ number, capacity });
+        setNumber('');
+        setCapacity(0);
+        const table_response = await tableService.getAllTable();
+        dispatch(setTableList(table_response.data));
+
+        if (response.success) {
+          showSnackbar('Table created successfully', 'success');
+          window.location.href = '/dashboard/table';
+        } else {
+          showSnackbar('Failed to create table', 'error');
+        }
+      }
+    } catch (error) {
+      showSnackbar('Failed to create table', 'error');
+    }
+  };
   return (
     <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
-      <h2 className='text-2xl font-semibold mb-4'>Create Room</h2>
+      <h2 className='text-2xl font-semibold mb-4'>Create Table</h2>
 
-      <form action='#' method='POST'>
+      <form onSubmit={handleSubmit}>
         <div className='grid grid-cols-2 gap-4'>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
-              Room Name
+              Table Number
             </label>
             <Spacer margin='my-2' />
             <Input
               props={{
                 variant: 'text',
-                value: name,
-                onChange: (e) => setName(e.target.value),
-                placeholder: 'Room Name',
+                value: number,
+                onChange: (e) => setNumber(e.target.value),
+                placeholder: 'Table Number',
                 isFull: true,
               }}
             />
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
-              Capacity
+              Table Capacity
             </label>
             <Spacer margin='my-2' />
             <Input
               props={{
-                variant: 'number',
+                variant: 'text',
                 value: capacity,
                 onChange: (e) => setCapacity(Number(e.target.value)),
-                placeholder: 'Capacity',
+                placeholder: 'Table capacity',
                 isFull: true,
               }}
             />
           </div>
-        </div>
-
-        <div className='mt-4'>
-          <label className='block text-sm font-medium text-gray-700'>
-            Room Status
-          </label>
-          <input
-            type='email'
-            id='email'
-            name='email'
-            className='mt-1 p-2 w-full border rounded-md'
-          />
-        </div>
-
-        <div className='mt-4'>
-          <label className='block text-sm font-medium text-gray-700'>
-            Select Room Table
-          </label>
-          <input
-            type='password'
-            id='password'
-            name='password'
-            className='mt-1 p-2 w-full border rounded-md'
-          />
         </div>
 
         <div className='mt-6'>
           <Button
             props={{
               type: 'submit',
-              text: 'Create Room',
+              text: 'Create Table',
             }}
             variant={{
               textColor: 'text-white',

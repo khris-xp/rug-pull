@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setStatusList } from '@/store/status/status.slice';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Fragment } from 'react/jsx-runtime';
 
 export default function StatusDashboardDetailsPage() {
   const { id } = useParams();
@@ -60,7 +59,7 @@ export default function StatusDashboardDetailsPage() {
     fetchStatus();
   }, [fetchStatus]);
   return (
-    <Fragment>
+    <>
       <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
         <h2 className='text-2xl font-semibold mb-4'>Edit Status</h2>
 
@@ -135,6 +134,6 @@ export default function StatusDashboardDetailsPage() {
           </div>
         </form>
       </div>
-    </Fragment>
+    </>
   );
 }

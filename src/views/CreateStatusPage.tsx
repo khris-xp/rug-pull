@@ -6,7 +6,7 @@ import useSnackbarToast from '@/hooks/useSnackbar';
 import { statusService } from '@/services/status.service';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setStatusList } from '@/store/status/status.slice';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 
 export default function CreateStatusPage() {
   const [name, setName] = useState<string>('');
@@ -46,81 +46,79 @@ export default function CreateStatusPage() {
     }
   };
   return (
-    <Fragment>
-      <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
-        <h2 className='text-2xl font-semibold mb-4'>Create Status</h2>
+    <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
+      <h2 className='text-2xl font-semibold mb-4'>Create Status</h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className='grid grid-cols-2 gap-4'>
-            <div>
-              <label className='block text-sm font-medium text-gray-700'>
-                Status Name
-              </label>
-              <Spacer margin='my-2' />
-              <Input
-                props={{
-                  variant: 'text',
-                  value: name,
-                  onChange: (e) => setName(e.target.value),
-                  placeholder: 'Status Name',
-                  isFull: true,
-                }}
-              />
-            </div>
-            <div>
-              <label className='block text-sm font-medium text-gray-700'>
-                Status Description
-              </label>
-              <Spacer margin='my-2' />
-              <Input
-                props={{
-                  variant: 'text',
-                  value: description,
-                  onChange: (e) => setDescription(e.target.value),
-                  placeholder: 'Status Description',
-                  isFull: true,
-                }}
-              />
-            </div>
-          </div>
-
-          <div className='mt-4'>
+      <form onSubmit={handleSubmit}>
+        <div className='grid grid-cols-2 gap-4'>
+          <div>
             <label className='block text-sm font-medium text-gray-700'>
-              Status Topics
+              Status Name
             </label>
             <Spacer margin='my-2' />
-            <Dropdown
+            <Input
               props={{
-                onClick: () => toggleTopicsDropdown(),
-                text: topics || 'Topics',
-                list: topicsStore.map((topic) => topic.title),
-                open: topicsDropdown,
-                onToggle: () => toggleTopicsDropdown(),
-                onSelectItem: (e: string) => setTopics(e),
+                variant: 'text',
+                value: name,
+                onChange: (e) => setName(e.target.value),
+                placeholder: 'Status Name',
+                isFull: true,
               }}
             />
           </div>
+          <div>
+            <label className='block text-sm font-medium text-gray-700'>
+              Status Description
+            </label>
+            <Spacer margin='my-2' />
+            <Input
+              props={{
+                variant: 'text',
+                value: description,
+                onChange: (e) => setDescription(e.target.value),
+                placeholder: 'Status Description',
+                isFull: true,
+              }}
+            />
+          </div>
+        </div>
 
-          <div className='mt-6'>
-            <Button
-              props={{
-                type: 'submit',
-                text: 'Create Status',
-              }}
-              variant={{
-                textColor: 'text-white',
-                isHover: true,
-                padding: 'w-full px-5 py-2.5',
-                fontWeight: 'font-normal',
-                borderRadius: 'rounded-lg',
-                color: 'bg-primary',
-                textAlign: 'center',
-                textSize: 'text-base',
-              }}
-            />
-          </div>
-        </form>
-      </div>
-    </Fragment>
+        <div className='mt-4'>
+          <label className='block text-sm font-medium text-gray-700'>
+            Status Topics
+          </label>
+          <Spacer margin='my-2' />
+          <Dropdown
+            props={{
+              onClick: () => toggleTopicsDropdown(),
+              text: topics || 'Topics',
+              list: topicsStore.map((topic) => topic.title),
+              open: topicsDropdown,
+              onToggle: () => toggleTopicsDropdown(),
+              onSelectItem: (e: string) => setTopics(e),
+            }}
+          />
+        </div>
+
+        <div className='mt-6'>
+          <Button
+            props={{
+              type: 'submit',
+              text: 'Create Status',
+            }}
+            variant={{
+              textColor: 'text-white',
+              isHover: true,
+              padding: 'w-full px-5 py-2.5',
+              fontWeight: 'font-normal',
+              borderRadius: 'rounded-lg',
+              color: 'bg-primary',
+              textAlign: 'center',
+              textSize: 'text-base',
+            }}
+          />
+        </div>
+      </form>
+    </div>
   );
 }

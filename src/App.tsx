@@ -6,6 +6,7 @@ import CateogryDashboradPage from '@/views/CategoryDashboardPage';
 import CreateCategoryPage from '@/views/CreateCategoryPage';
 import CreateRoomPage from '@/views/CreateRoomPage';
 import CreateStatusPage from '@/views/CreateStatusPage';
+import CreateTablePage from '@/views/CreateTablePage';
 import CreateTopicsPage from '@/views/CreateTopicsPage';
 import HomePage from '@/views/HomePage';
 import LoginPage from '@/views/LoginPage';
@@ -14,6 +15,8 @@ import RegisterPage from '@/views/RegisterPage';
 import RoomDashboardPage from '@/views/RoomDashboardPage';
 import StatusDashboardDetailsPage from '@/views/StatusDashboardDetailsPage';
 import StatusDashboardPage from '@/views/StatusDashboardPage';
+import TabldeDasboardDetailsPage from '@/views/TableDasboardDetailsPage';
+import TableDashboardPage from '@/views/TableDashboardPage';
 import TopicsDashboardDetailsPage from '@/views/TopicsDashboardDetailsPage';
 import TopicsDashboardPage from '@/views/TopicsDashboardPage';
 import { lazy } from 'react';
@@ -63,6 +66,12 @@ function App() {
           <Route
             path='/dashboard/category/:id'
             element={<CategoryDashboardDetailsPage />}
+          />
+          <Route path='/dashboard/table' element={<TableDashboardPage />} />
+          <Route path='/dashboard/create-table' element={<CreateTablePage />} />
+          <Route
+            path='/dashboard/table/:id'
+            element={<TabldeDasboardDetailsPage />}
           />
         </Route>
         <Route path='*' element={<NoPage />} />
