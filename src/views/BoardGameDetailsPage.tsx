@@ -13,7 +13,7 @@ export default function BoardGameDetailsPage() {
   const boardGame = useAppSelector((state) => state.boardGames.boardGame);
   const rooms = useAppSelector((state) => state.rooms.roomList);
   const dispatch = useAppDispatch();
-  const [selectedRoom, setSelectedRoom] = useState('');
+  const [selectedRoom, setSelectedRoom] = useState<string>('');
 
   const fetchBoardGame = useCallback(async () => {
     if (id && boardGame?._id !== id) {

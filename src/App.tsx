@@ -5,6 +5,7 @@ import HomePage from '@/views/HomePage';
 import LoginPage from '@/views/LoginPage';
 import ProfilePage from '@/views/ProfilePage';
 import RegisterPage from '@/views/RegisterPage';
+import RoomDashboard from '@/views/RoomDashboard';
 import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ function App() {
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/board-games' element={<BoardGamePage />} />
           <Route path='/board-game/:id' element={<BoardGameDetailsPage />} />
+          <Route path='/dashboard/room' element={<RoomDashboard />} />
         </Route>
         <Route path='*' element={<NoPage />} />
       </Routes>
