@@ -1,130 +1,74 @@
+import { roomService } from '@/services/room.service';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setRoomList } from '@/store/room/room.slice';
+import { faDoorOpen } from '@fortawesome/free-solid-svg-icons';
+import { useCallback, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Fragment } from 'react/jsx-runtime';
-import TableHead from './TableHead';
+import Button from '../Button/Button';
 
 export default function RoomTable() {
+  const rooms = useAppSelector((state) => state.rooms.roomList);
+  const dispatch = useAppDispatch();
+
+  const fetchRooms = useCallback(async () => {
+    if (rooms.length === 0) {
+      const response = await roomService.getAllRoom();
+      dispatch(setRoomList(response.data));
+    }
+  }, [dispatch, rooms.length]);
+
+  useEffect(() => {
+    fetchRooms();
+  }, [fetchRooms]);
+
   return (
     <Fragment>
+      <div className='flex justify-end items-center mr-10'>
+        <Link to='/dashboard/create-room'>
+          <Button
+            props={{
+              type: 'button',
+              icon: faDoorOpen,
+              text: 'Create Room',
+            }}
+          />
+        </Link>
+      </div>
       <div className='overflow-x-auto mx-auto container mt-10'>
         <table className='table'>
-          <TableHead />
+          <thead>
+            <tr className='text-center'>
+              <th>Name</th>
+              <th>Capacity</th>
+              <th>Tables Amount</th>
+              <th>Created At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr>
-              <td>
-                <div className='flex items-center gap-3'>
-                  <div className='avatar'>
-                    <div className='mask mask-squircle w-12 h-12'>
-                      <img
-                        src='/tailwind-css-component-profile-2@56w.png'
-                        alt='Avatar Tailwind CSS Component'
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className='font-bold'>Hart Hagerty</div>
-                    <div className='text-sm opacity-50'>United States</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                Zemlak, Daniel and Leannon
-                <br />
-                <span className='badge badge-ghost badge-sm'>
-                  Desktop Support Technician
-                </span>
-              </td>
-              <td>Purple</td>
-              <th>
-                <button className='btn btn-ghost btn-xs'>details</button>
-              </th>
-            </tr>
-            <tr>
-              <td>
-                <div className='flex items-center gap-3'>
-                  <div className='avatar'>
-                    <div className='mask mask-squircle w-12 h-12'>
-                      <img
-                        src='/tailwind-css-component-profile-3@56w.png'
-                        alt='Avatar Tailwind CSS Component'
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className='font-bold'>Brice Swyre</div>
-                    <div className='text-sm opacity-50'>China</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                Carroll Group
-                <br />
-                <span className='badge badge-ghost badge-sm'>
-                  Tax Accountant
-                </span>
-              </td>
-              <td>Red</td>
-              <th>
-                <button className='btn btn-ghost btn-xs'>details</button>
-              </th>
-            </tr>
-            <tr>
-              <td>
-                <div className='flex items-center gap-3'>
-                  <div className='avatar'>
-                    <div className='mask mask-squircle w-12 h-12'>
-                      <img
-                        src='/tailwind-css-component-profile-4@56w.png'
-                        alt='Avatar Tailwind CSS Component'
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className='font-bold'>Marjy Ferencz</div>
-                    <div className='text-sm opacity-50'>Russia</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                Rowe-Schoen
-                <br />
-                <span className='badge badge-ghost badge-sm'>
-                  Office Assistant I
-                </span>
-              </td>
-              <td>Crimson</td>
-              <th>
-                <button className='btn btn-ghost btn-xs'>details</button>
-              </th>
-            </tr>
-            {/* row 4 */}
-            <tr>
-              <td>
-                <div className='flex items-center gap-3'>
-                  <div className='avatar'>
-                    <div className='mask mask-squircle w-12 h-12'>
-                      <img
-                        src='/tailwind-css-component-profile-5@56w.png'
-                        alt='Avatar Tailwind CSS Component'
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className='font-bold'>Yancy Tear</div>
-                    <div className='text-sm opacity-50'>Brazil</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                Wyman-Ledner
-                <br />
-                <span className='badge badge-ghost badge-sm'>
-                  Community Outreach Specialist
-                </span>
-              </td>
-              <td>Indigo</td>
-              <th>
-                <button className='btn btn-ghost btn-xs'>details</button>
-              </th>
-            </tr>
+            {rooms.map((room) => (
+              <tr key={room._id} className='text-center'>
+                <td>
+                  <div className='font-bold'>{room.name}</div>
+                </td>
+                <td>
+                  {room.capacity} people
+                  <br />
+                  <span className='badge badge-ghost badge-sm'>
+                    {room.status}
+                  </span>
+                </td>
+                <td>{room.tables.length}</td>
+                <td>{room.createdAt}</td>
+                <th>
+                  <button className='btn btn-ghost btn-xs'>details</button>
+                  <button className='btn btn-ghost btn-xs text-error'>
+                    delete
+                  </button>
+                </th>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
