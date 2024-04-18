@@ -9,14 +9,14 @@ export const roomService = {
   getAllRoom: async (): Promise<RoomModelListResponse> => {
     return await apiController('/api/rooms', 'get');
   },
-  getRoomById: async (id: string): Promise<RoomModelResponse> => {
+  getRoomById: async (id: string | undefined): Promise<RoomModelResponse> => {
     return await apiController(`/api/rooms/${id}`, 'get');
   },
   createRoom: async (roomRequest: RoomDto): Promise<RoomModelResponse> => {
     return await apiController(`/api/rooms`, 'post', roomRequest);
   },
   updateRoom: async (
-    id: string,
+    id: string | undefined,
     roomRequest: RoomDto
   ): Promise<RoomModelResponse> => {
     return await apiController(`/api/rooms/${id}`, 'put', roomRequest);

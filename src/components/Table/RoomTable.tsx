@@ -1,3 +1,4 @@
+import useSnackbarToast from '@/hooks/useSnackbar';
 import { roomService } from '@/services/room.service';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setRoomList } from '@/store/room/room.slice';
@@ -9,6 +10,7 @@ import Button from '../Button/Button';
 export default function RoomTable() {
   const rooms = useAppSelector((state) => state.rooms.roomList);
   const dispatch = useAppDispatch();
+  const { showSnackbar } = useSnackbarToast();
 
   const fetchRooms = useCallback(async () => {
     if (rooms.length === 0) {
@@ -16,6 +18,19 @@ export default function RoomTable() {
       dispatch(setRoomList(response.data));
     }
   }, [dispatch, rooms.length]);
+
+  const handleDeleteTable = async (id: string) => {
+    try {
+      const response = await roomService.deleteRoom(id);
+      if (response.success) {
+        const room_response = await roomService.getAllRoom();
+        dispatch(setRoomList(room_response.data));
+        showSnackbar('Room deleted successfully', 'success');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fetchRooms();
@@ -61,8 +76,13 @@ export default function RoomTable() {
                 <td>{room.tables.length}</td>
                 <td>{room.createdAt}</td>
                 <th>
-                  <button className='btn btn-ghost btn-xs'>details</button>
-                  <button className='btn btn-ghost btn-xs text-error'>
+                  <Link to={`/dashboard/room/${room._id}`}>
+                    <button className='btn btn-ghost btn-xs'>details</button>
+                  </Link>
+                  <button
+                    onClick={() => handleDeleteTable(room._id)}
+                    className='btn btn-ghost btn-xs text-error'
+                  >
                     delete
                   </button>
                 </th>

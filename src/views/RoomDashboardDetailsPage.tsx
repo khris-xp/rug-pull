@@ -6,9 +6,11 @@ import useSnackbarToast from '@/hooks/useSnackbar';
 import { roomService } from '@/services/room.service';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setRoomList } from '@/store/room/room.slice';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-export default function CreateRoomPage() {
+export default function RoomDashboardDeatilsPage() {
+  const { id } = useParams();
   const [name, setName] = useState<string>('');
   const [capacity, setCapacity] = useState<number>();
   const [status, setStatus] = useState<string>('');
@@ -22,6 +24,14 @@ export default function CreateRoomPage() {
   const toggleStatusDropdown = () => {
     setStatusDropdown(!statusDropdown);
   };
+
+  const fetchRoomById = useCallback(async () => {
+    const response = await roomService.getRoomById(id);
+    setName(response.data.name);
+    setCapacity(response.data.capacity);
+    setStatus(response.data.status);
+    setSelectedTables(response.data.tables);
+  }, [id]);
 
   const handleTableClick = (id: string) => {
     if (selectedTables.includes(id)) {
@@ -58,9 +68,13 @@ export default function CreateRoomPage() {
     }
   };
 
+  useEffect(() => {
+    fetchRoomById();
+  }, [fetchRoomById]);
+
   return (
     <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
-      <h2 className='text-2xl font-semibold mb-4'>Create Room</h2>
+      <h2 className='text-2xl font-semibold mb-4'>Edit Room</h2>
       <form onSubmit={handleSubmit}>
         <div className='grid grid-cols-2 gap-4'>
           <div>
@@ -137,7 +151,7 @@ export default function CreateRoomPage() {
           <Button
             props={{
               type: 'submit',
-              text: 'Create Room',
+              text: 'Edit Room',
             }}
             variant={{
               textColor: 'text-white',

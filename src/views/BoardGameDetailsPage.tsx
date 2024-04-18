@@ -148,8 +148,8 @@ export default function BoardGameDetailsPage() {
                   onClick={() => handleRoomClick(room._id)}
                   className={`px-6 py-2 ${
                     selectedRoom === room._id
-                      ? 'text-black bg-white'
-                      : 'bg-black text-white'
+                      ? 'bg-black text-white'
+                      : 'text-black bg-white'
                   } border border-black rounded-lg font-bold duration-100`}
                 >
                   {room.name}
@@ -257,6 +257,7 @@ export default function BoardGameDetailsPage() {
                   <h1 className='mt-8 text-3xl font-bold'>Players</h1>
                   <p className='mt-4'>
                     Player min: {boardGame?.players_min} - Player max:{' '}
+                    {boardGame?.players_max}
                   </p>
                 </div>
               </div>

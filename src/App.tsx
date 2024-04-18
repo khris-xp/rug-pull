@@ -12,6 +12,7 @@ import HomePage from '@/views/HomePage';
 import LoginPage from '@/views/LoginPage';
 import ProfilePage from '@/views/ProfilePage';
 import RegisterPage from '@/views/RegisterPage';
+import RoomDashboardDetailsPage from '@/views/RoomDashboardDetailsPage';
 import RoomDashboardPage from '@/views/RoomDashboardPage';
 import StatusDashboardDetailsPage from '@/views/StatusDashboardDetailsPage';
 import StatusDashboardPage from '@/views/StatusDashboardPage';
@@ -36,6 +37,10 @@ function App() {
           <Route path='/board-games' element={<BoardGamePage />} />
           <Route path='/board-game/:id' element={<BoardGameDetailsPage />} />
           <Route path='/dashboard/room' element={<RoomDashboardPage />} />
+          <Route
+            path='/dashboard/room/:id'
+            element={<RoomDashboardDetailsPage />}
+          />
           <Route path='/dashboard/create-room' element={<CreateRoomPage />} />
           <Route path='/dashboard/topics' element={<TopicsDashboardPage />} />
           <Route
