@@ -1,11 +1,12 @@
 import BaseLayout from '@/layouts/BaseLayout';
 import BoardGameDetailsPage from '@/views/BoardGameDetailsPage';
 import BoardGamePage from '@/views/BoardGamePage';
+import CreateRoomPage from '@/views/CreateRoomPage';
 import HomePage from '@/views/HomePage';
 import LoginPage from '@/views/LoginPage';
 import ProfilePage from '@/views/ProfilePage';
 import RegisterPage from '@/views/RegisterPage';
-import RoomDashboard from '@/views/RoomDashboard';
+import RoomDashboardPage from '@/views/RoomDashboardPage';
 import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -22,7 +23,8 @@ function App() {
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/board-games' element={<BoardGamePage />} />
           <Route path='/board-game/:id' element={<BoardGameDetailsPage />} />
-          <Route path='/dashboard/room' element={<RoomDashboard />} />
+          <Route path='/dashboard/room' element={<RoomDashboardPage />} />
+          <Route path='/dashboard/create-room' element={<CreateRoomPage />} />
         </Route>
         <Route path='*' element={<NoPage />} />
       </Routes>

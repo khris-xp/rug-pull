@@ -6,7 +6,7 @@ interface IVariant {
 }
 
 interface ContainerProps {
-  variant: IVariant;
+  variant?: IVariant;
   children: React.ReactNode;
 }
 
