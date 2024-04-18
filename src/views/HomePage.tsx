@@ -52,11 +52,12 @@ export default function HomePage() {
         }}
       >
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-          {boardGames.map((boardGame) => (
-            <Link to={`/board-game/${boardGame._id}`}>
-              <ProductCard key={boardGame._id} boardGame={boardGame} />
-            </Link>
-          ))}
+          {boardGames &&
+            boardGames.map((boardGame) => (
+              <Link to={`/board-game/${boardGame._id}`}>
+                <ProductCard key={boardGame._id} boardGame={boardGame} />
+              </Link>
+            ))}
         </div>
       </Container>
       <Footer
