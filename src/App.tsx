@@ -2,12 +2,15 @@ import BaseLayout from '@/layouts/BaseLayout';
 import BoardGameDetailsPage from '@/views/BoardGameDetailsPage';
 import BoardGamePage from '@/views/BoardGamePage';
 import CreateRoomPage from '@/views/CreateRoomPage';
+import CreateStatusPage from '@/views/CreateStatusPage';
 import CreateTopicsPage from '@/views/CreateTopicsPage';
 import HomePage from '@/views/HomePage';
 import LoginPage from '@/views/LoginPage';
 import ProfilePage from '@/views/ProfilePage';
 import RegisterPage from '@/views/RegisterPage';
 import RoomDashboardPage from '@/views/RoomDashboardPage';
+import StatusDashboardDetailsPage from '@/views/StatusDashboardDetailsPage';
+import StatusDashboardPage from '@/views/StatusDashboardPage';
 import TopicsDashboardDetailsPage from '@/views/TopicsDashboardDetailsPage';
 import TopicsDashboardPage from '@/views/TopicsDashboardPage';
 import { lazy } from 'react';
@@ -36,6 +39,15 @@ function App() {
           <Route
             path='/dashboard/create-topics'
             element={<CreateTopicsPage />}
+          />
+          <Route path='/dashboard/status' element={<StatusDashboardPage />} />
+          <Route
+            path='/dashboard/create-status'
+            element={<CreateStatusPage />}
+          />
+          <Route
+            path='/dashboard/status/:id'
+            element={<StatusDashboardDetailsPage />}
           />
         </Route>
         <Route path='*' element={<NoPage />} />

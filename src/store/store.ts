@@ -12,6 +12,7 @@ import {
 import { authSlice } from './auth/auth.slice';
 import { boardGameSlice } from './board-game/board-game.slice';
 import { roomSlice } from './room/room.slice';
+import { statusSlice } from './status/status.slice';
 import storage from './storage';
 import { topicsSlice } from './topics/topics.slice';
 
@@ -20,13 +21,14 @@ const rootReducer = combineReducers({
   boardGames: boardGameSlice.reducer,
   rooms: roomSlice.reducer,
   topics: topicsSlice.reducer,
+  status: statusSlice.reducer,
 });
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['auth', 'boardGames', 'rooms', 'topics'],
+  whitelist: ['auth', 'boardGames', 'rooms', 'topics', 'status'],
 };
 
 const persistedReducers = persistReducer(persistConfig, rootReducer);

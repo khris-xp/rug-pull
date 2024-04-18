@@ -4,6 +4,7 @@ import {
   CommonBoardGameModelType,
 } from './board-game.type';
 import { RoomModelType } from './room.type';
+import { StatusModelType } from './status.type';
 import { TopicsType } from './topics.type';
 import { UserType } from './user.type';
 
@@ -23,3 +24,5 @@ export type AuthModelResponse = APIResponseType<AuthResponseType>;
 export type UserModelResponse = APIResponseType<UserType>;
 export type TopicsModelListResponse = APIResponseType<TopicsType[]>;
 export type TopicsModelResponse = APIResponseType<TopicsType>;
+export type StatusModelListResponse = APIResponseType<StatusModelType[]>;
+export type StatusModelResponse = APIResponseType<StatusModelType>;
