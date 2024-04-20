@@ -50,7 +50,7 @@ export default function BoardGamePage() {
         variant={{
           display: 'flex',
           justifyContent: 'center',
-          container: false,
+          container: true,
           margin: 'mx-auto',
         }}
       >

@@ -1,14 +1,15 @@
+import {
+  AdminLinks,
+  AuthLinks,
+  DropdownLinks,
+  UserLinks,
+} from '@/constants/link';
 import { setAuthState } from '@/store/auth/auth.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { LinkType } from '@/types/link.type';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 
-type HeaderProps = {
-  links: LinkType[];
-};
-
-export default function Header(props: HeaderProps) {
+export default function Header() {
   const userData = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
@@ -17,6 +18,17 @@ export default function Header(props: HeaderProps) {
     Cookies.remove('token');
     window.location.href = '/';
   }
+
+  let links;
+
+  if (userData?.role === 'admin') {
+    links = AdminLinks;
+  } else if (userData?.role === 'User') {
+    links = AuthLinks;
+  } else {
+    links = UserLinks;
+  }
+
   return (
     <div className='navbar bg-base-100'>
       <div className='navbar-start'>
@@ -41,11 +53,23 @@ export default function Header(props: HeaderProps) {
             tabIndex={0}
             className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
           >
-            {props.links.map((link) => (
+            {links.map((link) => (
               <li key={link.path}>
                 <Link to={link.path}>{link.name}</Link>
               </li>
             ))}
+            <li>
+              <details>
+                <summary>Dashboard</summary>
+                <ul className='p-2'>
+                  {DropdownLinks.map((link) => (
+                    <li key={link.path}>
+                      <Link to={link.path}>{link.name}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
           </ul>
         </div>
         <a href='/' className='btn btn-ghost text-xl'>
@@ -54,11 +78,23 @@ export default function Header(props: HeaderProps) {
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>
-          {props.links.map((link) => (
+          {links.map((link) => (
             <li key={link.path}>
               <Link to={link.path}>{link.name}</Link>
             </li>
           ))}
+          <li>
+            <details>
+              <summary>Dashboard</summary>
+              <ul className='p-2 z-10'>
+                {DropdownLinks.map((link) => (
+                  <li key={link.path}>
+                    <Link to={link.path}>{link.name}</Link>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </li>
         </ul>
       </div>
       <div className='navbar-end'>
