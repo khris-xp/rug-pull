@@ -55,7 +55,7 @@ export default function BoardGameTable() {
   };
 
   useEffect(() => {
-    fetchBoardGames(0);
+    fetchBoardGames(1);
   }, [fetchBoardGames]);
   return (
     <>

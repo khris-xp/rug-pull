@@ -1,34 +1,29 @@
 import useSnackbarToast from '@/hooks/useSnackbar';
 import { bookingService } from '@/services/booked.service';
 import { setBookingList } from '@/store/booking/booking.slice';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { useCallback, useEffect } from 'react';
+import { useAppDispatch } from '@/store/hooks';
+import { BookingModelType } from '@/types/booking.type';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function BookingTable() {
-  const booking = useAppSelector((state) => state.booking.bookingList);
+  const [booking, setBooking] = useState<BookingModelType[]>([]);
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbarToast();
 
   const fetchBooking = useCallback(async () => {
     try {
       const response = await bookingService.getBookings();
-      if (response.success) {
-        dispatch(setBookingList(response.data));
-      } else {
-        dispatch(setBookingList([]));
-      }
+      setBooking(response.data.data);
     } catch (error) {
-      dispatch(setBookingList([]));
+      console.log(error);
     }
-  }, [dispatch]);
+  }, []);
 
   const handleDeleteBooking = async (id: string) => {
     try {
       const response = await bookingService.deleteBooking(id);
       if (response.success) {
-        const booking_response = await bookingService.getBookings();
-        dispatch(setBookingList(booking_response.data));
         showSnackbar('Booking deleted successfully', 'success');
       }
     } catch (error) {
@@ -45,11 +40,17 @@ export default function BookingTable() {
         <table className='table'>
           <thead>
             <tr className='text-center'>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Topics</th>
+              <th>User</th>
+              <th>Board Game</th>
+              <th>Room</th>
+              <th>Table</th>
+              <th>Status</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Total Price</th>
+              <th>Duration</th>
               <th>Created At</th>
-              <th>Actions</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>

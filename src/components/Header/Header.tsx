@@ -58,18 +58,20 @@ export default function Header() {
                 <Link to={link.path}>{link.name}</Link>
               </li>
             ))}
-            <li>
-              <details>
-                <summary>Dashboard</summary>
-                <ul className='p-2'>
-                  {DropdownLinks.map((link) => (
-                    <li key={link.path}>
-                      <Link to={link.path}>{link.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </li>
+            {userData && userData.role === 'admin' && (
+              <li>
+                <details>
+                  <summary>Dashboard</summary>
+                  <ul className='p-2 z-10'>
+                    {DropdownLinks.map((link) => (
+                      <li key={link.path}>
+                        <Link to={link.path}>{link.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </li>
+            )}
           </ul>
         </div>
         <a href='/' className='btn btn-ghost text-xl'>
@@ -83,18 +85,20 @@ export default function Header() {
               <Link to={link.path}>{link.name}</Link>
             </li>
           ))}
-          <li>
-            <details>
-              <summary>Dashboard</summary>
-              <ul className='p-2 z-10'>
-                {DropdownLinks.map((link) => (
-                  <li key={link.path}>
-                    <Link to={link.path}>{link.name}</Link>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </li>
+          {userData && userData.role === 'admin' && (
+            <li>
+              <details>
+                <summary>Dashboard</summary>
+                <ul className='p-2 z-10'>
+                  {DropdownLinks.map((link) => (
+                    <li key={link.path}>
+                      <Link to={link.path}>{link.name}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          )}
         </ul>
       </div>
       <div className='navbar-end'>

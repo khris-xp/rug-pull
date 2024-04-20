@@ -1,11 +1,20 @@
 import Button from '@/components/Button/Button';
+import Input from '@/components/Input/Input';
+import useSnackbarToast from '@/hooks/useSnackbar';
 import { boardGameService } from '@/services/board-game.service';
+import { bookingService } from '@/services/booked.service';
 import { roomService } from '@/services/room.service';
+import { tableService } from '@/services/table.service';
 import { setBoardGame } from '@/store/board-game/board-game.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setRoomList } from '@/store/room/room.slice';
+import { TableModelType } from '@/types/table.type';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
+import 'moment/locale/fr';
 import { useCallback, useEffect, useState } from 'react';
+import Datetime from 'react-datetime';
+import 'react-datetime/css/react-datetime.css';
 import { useParams } from 'react-router-dom';
 
 export default function BoardGameDetailsPage() {
@@ -14,6 +23,54 @@ export default function BoardGameDetailsPage() {
   const rooms = useAppSelector((state) => state.rooms.roomList);
   const dispatch = useAppDispatch();
   const [selectedRoom, setSelectedRoom] = useState<string>('');
+  const [selectedTable, setSelectedTable] = useState<string>('');
+  const [tableData, setTableData] = useState<TableModelType[]>([]);
+  const [selectedStartDate, setSelectedStartDate] = useState<string>('');
+  const [selectedEndDate, setSelectedEndDate] = useState<string>('');
+  const [duration, setDuration] = useState<number>(0);
+  const [amount_player, setAmountPlayer] = useState<number>(0);
+  const userData = useAppSelector((state) => state.auth.user);
+  const { showSnackbar } = useSnackbarToast();
+
+  const calculateDuration = () => {
+    const start = moment(selectedStartDate);
+    const end = moment(selectedEndDate);
+    setDuration(end.diff(start, 'hours'));
+    console.log(duration);
+  };
+
+  const hanldeBooking = async () => {
+    if (
+      selectedRoom === '' ||
+      selectedTable === '' ||
+      selectedStartDate === '' ||
+      selectedEndDate === '' ||
+      amount_player === 0 ||
+      duration === 0 ||
+      userData ||
+      boardGame
+    ) {
+      calculateDuration();
+      const response = await bookingService.createBooking({
+        table_id: selectedTable,
+        user: userData?._id,
+        room_id: selectedRoom,
+        start_time: selectedStartDate,
+        end_time: selectedEndDate,
+        amount_player: amount_player,
+        total_price: boardGame ? boardGame.price * amount_player : 0,
+        duration: duration * 60,
+        board_game_id: boardGame?._id,
+        status: 'pending',
+      });
+
+      if (response.success) {
+        showSnackbar('Booking success', 'success');
+      } else {
+        showSnackbar('Booking failed', 'error');
+      }
+    }
+  };
 
   const fetchBoardGame = useCallback(async () => {
     if (id && boardGame?._id !== id) {
@@ -27,13 +84,32 @@ export default function BoardGameDetailsPage() {
     dispatch(setRoomList(response.data));
   }, [dispatch]);
 
-  function handleRoomClick(roomName: string) {
+  async function handleRoomClick(roomName: string) {
     if (selectedRoom === roomName) {
       setSelectedRoom('');
     } else {
       setSelectedRoom(roomName);
+      const response = await roomService.getRoomById(roomName);
+
+      const tableDataPromises = response.data.tables.map((table) =>
+        tableService.getTableById(table)
+      );
+
+      const resolvedTableData = await Promise.all(tableDataPromises);
+
+      const tableDataArray = resolvedTableData.map((response) => response.data);
+
+      setTableData(tableDataArray);
     }
   }
+
+  const handleTableClick = (tableId: string) => {
+    if (selectedTable === tableId) {
+      setSelectedTable('');
+    } else {
+      setSelectedTable(tableId);
+    }
+  };
 
   useEffect(() => {
     fetchBoardGame();
@@ -157,6 +233,93 @@ export default function BoardGameDetailsPage() {
               ))}
             </div>
 
+            {selectedRoom !== '' && (
+              <>
+                <h2 className='mt-8 text-base text-gray-900'>
+                  Choose table to play
+                </h2>
+                <div className='mt-3 flex select-none flex-wrap items-center gap-1'>
+                  {tableData && (
+                    <>
+                      {tableData.map((table) => (
+                        <button
+                          onClick={() => handleTableClick(table?._id)}
+                          className={`px-6 py-2 ${
+                            selectedTable === table?._id
+                              ? 'bg-black text-white'
+                              : 'text-black bg-white'
+                          } border border-black rounded-lg font-bold duration-100`}
+                        >
+                          {table?.number}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                </div>
+              </>
+            )}
+
+            {selectedTable !== '' && (
+              <>
+                <div className='flex justify-center space-x-5'>
+                  <div className='mt-8'>
+                    <h2 className='text-base text-gray-900 mb-2'>
+                      Select Start Date and Time
+                    </h2>
+                    <Datetime
+                      className='bg-white shadow-md border rounded-md py-2 px-4 text-gray-700 focus:outline-none focus:border-blue-500'
+                      inputProps={{
+                        placeholder: 'Select Start Date and Time',
+                      }}
+                      value={
+                        selectedStartDate ? new Date(selectedStartDate) : ''
+                      }
+                      onChange={(date) =>
+                        setSelectedStartDate(
+                          date instanceof moment ? date.format() : ''
+                        )
+                      }
+                      isValidDate={(current) => {
+                        return current.isAfter(moment().subtract(1, 'days'));
+                      }}
+                    />
+                  </div>
+                  <div className='mt-8'>
+                    <h2 className='text-base text-gray-900 mb-2'>
+                      Select End Date and Time
+                    </h2>
+                    <Datetime
+                      className='bg-white shadow-md border rounded-md py-2 px-4 text-gray-700 focus:outline-none focus:border-blue-500'
+                      inputProps={{ placeholder: 'Select End Date and Time' }}
+                      value={selectedEndDate ? new Date(selectedEndDate) : ''}
+                      onChange={(date) =>
+                        setSelectedEndDate(
+                          date instanceof moment ? date.format() : ''
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className='mt-8'>
+                    <h2 className='text-base text-gray-900 mb-2'>
+                      Amount of player
+                    </h2>
+                    <Input
+                      props={{
+                        variant: 'number',
+                        value: amount_player,
+                        onChange: (e) =>
+                          setAmountPlayer(Number(e.target.value)),
+                        placeholder: 'Amount of player',
+                        isFull: true,
+                      }}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+
             <div className='mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
               <div className='flex items-end'>
                 <h1 className='text-3xl font-bold'>฿{boardGame?.price}</h1>
@@ -175,7 +338,7 @@ export default function BoardGameDetailsPage() {
                   type: 'button',
                   text: 'Book Now',
                   icon: faBullseye,
-                  onClick: () => console.log('Book Now'),
+                  onClick: hanldeBooking,
                 }}
               />
             </div>
@@ -230,17 +393,6 @@ export default function BoardGameDetailsPage() {
                   className='border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800'
                 >
                   Description
-                </a>
-
-                <a
-                  href='#'
-                  title=''
-                  className='inline-flex items-center border-b-2 border-transparent py-4 text-sm font-medium text-gray-600'
-                >
-                  Reviews
-                  <span className='ml-2 block rounded-full bg-gray-500 px-2 py-px text-xs font-bold text-gray-100'>
-                    1,209
-                  </span>
                 </a>
               </nav>
             </div>
