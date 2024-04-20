@@ -8,6 +8,7 @@ import { TableModelType } from './table.type';
 import { TopicsType } from './topics.type';
 import { ImageModelType } from './upload.type';
 import { UserType } from './user.type';
+import { CommonBookingModelType } from './booking.type';
 
 export type APIResponseType<T> = {
   status: number;
@@ -32,5 +33,5 @@ export type CategoryModelResponse = APIResponseType<CategoryModelType>;
 export type TableModelListResponse = APIResponseType<TableModelType[]>;
 export type TableModelResponse = APIResponseType<TableModelType>;
 export type ImageModelResponse = APIResponseType<ImageModelType>;
-export type BookingModelListResponse = APIResponseType<BookingModelType[]>;
+export type BookingModelListResponse = APIResponseType<CommonBookingModelType>;
 export type BookingModelResponse = APIResponseType<BookingModelType>;

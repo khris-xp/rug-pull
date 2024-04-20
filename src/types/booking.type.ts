@@ -1,3 +1,9 @@
+export type CommonBookingModelType = {
+  data: BookingModelType[];
+  page: number;
+  limit: number;
+};
+
 export type BookingModelType = {
   _id: string;
   board_game_id: string;
