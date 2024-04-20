@@ -1,8 +1,9 @@
 import BaseLayout from '@/layouts/BaseLayout';
 import BoardGameDashboardDetailsPage from '@/views/BoardGameDashboardDetailsPage';
+import BoardGameDasgboardPage from '@/views/BoardGameDashboardPage';
 import BoardGameDetailsPage from '@/views/BoardGameDetailsPage';
 import BoardGamePage from '@/views/BoardGamePage';
-import BoardGameDasgboardPage from '@/views/BoardGameDashboardPage';
+import BookingDashboardPage from '@/views/BookingDashboardPage';
 import CategoryDashboardDetailsPage from '@/views/CategoryDashboardDetailsPage';
 import CateogryDashboradPage from '@/views/CategoryDashboardPage';
 import CreateBoardGamePage from '@/views/CreateBoardGamePage';
@@ -39,6 +40,7 @@ function App() {
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/board-games' element={<BoardGamePage />} />
           <Route path='/board-game/:id' element={<BoardGameDetailsPage />} />
+          <Route path='/dashboard/booking' element={<BookingDashboardPage />} />
           <Route
             path='/dashboard/board-game'
             element={<BoardGameDasgboardPage />}

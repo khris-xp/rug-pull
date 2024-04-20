@@ -66,6 +66,10 @@ export const DropdownLinks: LinkType[] = [
     path: '/dashboard/board-game',
   },
   {
+    name: 'Bookings',
+    path: '/dashboard/booking',
+  },
+  {
     name: 'Rooms',
     path: '/dashboard/room',
   },

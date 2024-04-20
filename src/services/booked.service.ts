@@ -5,29 +5,39 @@ import {
   BookingModelResponse,
 } from '@/types/response.type';
 
-export const bookingController = {
+export const bookingService = {
   getBookings: async (): Promise<BookingModelListResponse> => {
-    return await apiController<BookingModelListResponse>('/bookings', 'get');
+    return await apiController<BookingModelListResponse>(
+      '/api/bookings',
+      'get'
+    );
   },
   getBooking: async (id: string | undefined): Promise<BookingModelResponse> => {
-    return await apiController<BookingModelResponse>(`/bookings/${id}`, 'get');
+    return await apiController<BookingModelResponse>(
+      `/api/bookings/${id}`,
+      'get'
+    );
   },
   createBooking: async (data: BookingDto): Promise<BookingModelResponse> => {
-    return await apiController<BookingModelResponse>('/bookings', 'post', data);
+    return await apiController<BookingModelResponse>(
+      '/api/bookings',
+      'post',
+      data
+    );
   },
   updateBooking: async (
     id: string | undefined,
     data: BookingDto
   ): Promise<BookingModelResponse> => {
     return await apiController<BookingModelResponse>(
-      `/bookings/${id}`,
+      `/api/bookings/${id}`,
       'put',
       data
     );
   },
   deleteBooking: async (id: string): Promise<BookingModelResponse> => {
     return await apiController<BookingModelResponse>(
-      `/bookings/${id}`,
+      `/api/bookings/${id}`,
       'delete'
     );
   },
