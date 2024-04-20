@@ -1,5 +1,6 @@
 import { AuthResponseType } from './auth.type';
 import { BoardGameModelDataType, BoardGameModelType } from './board-game.type';
+import { BookingModelType } from './booking.type';
 import { CategoryModelType } from './category.type';
 import { RoomModelType } from './room.type';
 import { StatusModelType } from './status.type';
@@ -31,3 +32,5 @@ export type CategoryModelResponse = APIResponseType<CategoryModelType>;
 export type TableModelListResponse = APIResponseType<TableModelType[]>;
 export type TableModelResponse = APIResponseType<TableModelType>;
 export type ImageModelResponse = APIResponseType<ImageModelType>;
+export type BookingModelListResponse = APIResponseType<BookingModelType[]>;
+export type BookingModelResponse = APIResponseType<BookingModelType>;

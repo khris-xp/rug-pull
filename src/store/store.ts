@@ -17,6 +17,7 @@ import { statusSlice } from './status/status.slice';
 import storage from './storage';
 import { tableSlice } from './table/table.slice';
 import { topicsSlice } from './topics/topics.slice';
+import { bookingSlice } from './booking/booking.slice';
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   status: statusSlice.reducer,
   categories: categorySlice.reducer,
   table: tableSlice.reducer,
+  booking: bookingSlice.reducer,
 });
 
 const persistConfig = {
@@ -40,6 +42,7 @@ const persistConfig = {
     'status',
     'categories',
     'table',
+    'booking',
   ],
 };
 
