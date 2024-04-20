@@ -25,7 +25,7 @@ const Pagination: React.FC<IProps> = (props) => {
             <Button
               variant={{
                 padding: 'px-3 h-8 mr-3',
-                textColor: 'white',
+                textColor: 'text-white',
                 borderRadius: 'rounded-lg',
                 textSize: 'text-sm',
                 fontWeight: 'font-normal',
@@ -46,7 +46,7 @@ const Pagination: React.FC<IProps> = (props) => {
               <Button
                 variant={{
                   padding: 'px-3 h-8',
-                  textColor: 'white',
+                  textColor: 'text-white',
                   borderRadius: 'rounded-full',
                   isHover: true,
                   textSize: 'text-sm',
@@ -71,7 +71,7 @@ const Pagination: React.FC<IProps> = (props) => {
               <Button
                 variant={{
                   padding: 'px-3 h-8',
-                  textColor: 'white',
+                  textColor: 'text-white',
                   isHover: true,
                   borderRadius: 'rounded-full',
                   textSize: 'text-sm',
@@ -94,7 +94,7 @@ const Pagination: React.FC<IProps> = (props) => {
               <Button
                 variant={{
                   padding: 'px-3 h-8',
-                  textColor: 'white',
+                  textColor: 'text-white',
                   isHover: true,
                   borderRadius: 'rounded-full',
                   textSize: 'text-sm',
@@ -113,7 +113,7 @@ const Pagination: React.FC<IProps> = (props) => {
             <Button
               variant={{
                 padding: 'px-3 h-8 ml-3',
-                textColor: 'white',
+                textColor: 'text-white',
                 borderRadius: 'rounded-lg',
                 textSize: 'text-sm',
                 fontWeight: 'font-normal',

@@ -3,21 +3,40 @@ import { boardGameService } from '@/services/board-game.service';
 import { setBoardGameList } from '@/store/board-game/board-game.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { faGamepad } from '@fortawesome/free-solid-svg-icons';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../Button/Button';
+import Pagination from '../Pagination/Pagination';
 
 export default function BoardGameTable() {
   const boardGames = useAppSelector((state) => state.boardGames.boardGameList);
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbarToast();
+  const [totalPages, setTotalPages] = useState(1);
+  const LIMIT = 10;
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const fetchBoardGames = useCallback(async () => {
-    if (boardGames.length === 0) {
-      const response = await boardGameService.getAllBoardGame('1', '10');
-      dispatch(setBoardGameList(response.data.boardGames.data));
+  const calPagination = useCallback(() => {
+    if (totalPages) {
+      return Math.ceil(totalPages / LIMIT);
     }
-  }, [dispatch, boardGames.length]);
+    return 1;
+  }, [totalPages]);
+
+  const fetchBoardGames = useCallback(
+    async (page: number) => {
+      if (boardGames.length === 0) {
+        const response = await boardGameService.getAllBoardGame(
+          String(page),
+          String(LIMIT)
+        );
+        dispatch(setBoardGameList(response.data.boardGames.data));
+        setCurrentPage(response.data.currentPage);
+        setTotalPages(response.data.totalPages);
+      }
+    },
+    [dispatch, boardGames.length]
+  );
 
   const handleDeleteBoardGame = async (id: string) => {
     try {
@@ -36,7 +55,7 @@ export default function BoardGameTable() {
   };
 
   useEffect(() => {
-    fetchBoardGames();
+    fetchBoardGames(0);
   }, [fetchBoardGames]);
   return (
     <>
@@ -92,6 +111,14 @@ export default function BoardGameTable() {
             ))}
           </tbody>
         </table>
+        <div className='flex justify-center mt-7'>
+          <Pagination
+            totalItems={calPagination()}
+            itemsPerPage={10}
+            currentPage={parseInt(String(currentPage))}
+            onPageChange={fetchBoardGames}
+          />
+        </div>
       </div>
     </>
   );
