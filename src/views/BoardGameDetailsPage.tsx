@@ -10,8 +10,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setRoomList } from '@/store/room/room.slice';
 import { TableModelType } from '@/types/table.type';
 import { faBullseye } from '@fortawesome/free-solid-svg-icons';
-import moment from 'moment';
-import 'moment/locale/fr';
+import * as moment from 'moment'
 import { useCallback, useEffect, useState } from 'react';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
