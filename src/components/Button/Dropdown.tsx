@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
 
 interface IProps {
-  onClick?: any;
+  onClick?: () => void;
   text: string;
   icon?: IconProp;
   list: string[];
   open: boolean;
-  onToggle: any;
-  onSelectItem: any;
+  onToggle: () => void;
+  onSelectItem: (e: string) => void;
 }
 
 interface IVariant {

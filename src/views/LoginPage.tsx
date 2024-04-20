@@ -38,6 +38,7 @@ export default function LoginPage() {
             setAuthState({
               user: user.data,
               accessToken: response.data.accessToken,
+              refreshToken: response.data.refreshToken,
             })
           );
           showSnackbar('Login Successfully', 'success');

@@ -13,7 +13,7 @@ export default function Header(props: HeaderProps) {
   const dispatch = useAppDispatch();
 
   function logout() {
-    dispatch(setAuthState({ user: null, accessToken: '' }));
+    dispatch(setAuthState({ user: null, accessToken: '', refreshToken: '' }));
     Cookies.remove('token');
     window.location.href = '/';
   }

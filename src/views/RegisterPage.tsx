@@ -42,6 +42,7 @@ export default function RegisterPage() {
             setAuthState({
               user: user.data,
               accessToken: response.data.accessToken,
+              refreshToken: response.data.refreshToken,
             })
           );
           showSnackbar('Register successfully.', 'success');

@@ -101,7 +101,7 @@ export default function BoardGameDashboardDetailsPage() {
 
   return (
     <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto my-10'>
-      <h2 className='text-2xl font-semibold mb-4'>Create Board Game</h2>
+      <h2 className='text-2xl font-semibold mb-4'>Edit Board Game</h2>
 
       <div className='p-4 bg-white  bg-whtie m-auto rounded-lg mb-10'>
         {thumbnail !== '' ? (
@@ -291,7 +291,7 @@ export default function BoardGameDashboardDetailsPage() {
           <Button
             props={{
               type: 'submit',
-              text: 'Create BoardGame',
+              text: 'Edit BoardGame',
             }}
             variant={{
               textColor: 'text-white',
