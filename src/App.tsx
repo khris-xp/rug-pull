@@ -14,6 +14,7 @@ import CreateTablePage from '@/views/CreateTablePage';
 import CreateTopicsPage from '@/views/CreateTopicsPage';
 import HomePage from '@/views/HomePage';
 import LoginPage from '@/views/LoginPage';
+import PaymentSuccessPage from '@/views/PaymentSuccess';
 import ProfilePage from '@/views/ProfilePage';
 import RegisterPage from '@/views/RegisterPage';
 import RoomDashboardDetailsPage from '@/views/RoomDashboardDetailsPage';
@@ -95,6 +96,7 @@ function App() {
             path='/dashboard/table/:id'
             element={<TabldeDasboardDetailsPage />}
           />
+          <Route path='/payment-success' element={<PaymentSuccessPage />} />
         </Route>
         <Route path='*' element={<NoPage />} />
       </Routes>
