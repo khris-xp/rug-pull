@@ -1,4 +1,5 @@
 import BaseLayout from '@/layouts/BaseLayout';
+import AboutusPage from '@/views/AboutusPage';
 import BoardGameDashboardDetailsPage from '@/views/BoardGameDashboardDetailsPage';
 import BoardGameDasgboardPage from '@/views/BoardGameDashboardPage';
 import BoardGameDetailsPage from '@/views/BoardGameDetailsPage';
@@ -96,6 +97,7 @@ function App() {
             path='/dashboard/table/:id'
             element={<TabldeDasboardDetailsPage />}
           />
+          <Route path='/about-us' element={<AboutusPage />} />
           <Route path='/payment-success' element={<PaymentSuccessPage />} />
         </Route>
         <Route path='*' element={<NoPage />} />
