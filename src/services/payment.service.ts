@@ -6,7 +6,7 @@ export const paymentService = {
   createPayment: async (data: PaymentDto): Promise<PaymentModelResponse> => {
     try {
       const response = await axiosInstance.post<PaymentModelResponse>(
-        '/payment',
+        '/api/payments',
         data
       );
       return response.data;

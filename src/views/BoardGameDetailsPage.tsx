@@ -6,6 +6,7 @@ import { useValidate } from '@/hooks/useValidate';
 import { generateBookingFields } from '@/mappers/booking.mapper';
 import { boardGameService } from '@/services/board-game.service';
 import { bookingService } from '@/services/booked.service';
+import { paymentService } from '@/services/payment.service';
 import { roomService } from '@/services/room.service';
 import { tableService } from '@/services/table.service';
 import { setBoardGame } from '@/store/board-game/board-game.slice';
@@ -83,6 +84,16 @@ export default function BoardGameDetailsPage() {
           });
 
           if (response.success) {
+            const paymentResponse = await paymentService.createPayment({
+              user: userData?._id,
+              booking: response.data._id,
+              total: boardGame ? boardGame.price : 0,
+              status: 'Pending',
+            });
+
+            if (paymentResponse.success) {
+              window.location.href = paymentResponse.data.session.url;
+            }
             showSnackbar('Booking success', 'success');
           } else {
             showSnackbar('Booking failed', 'error');
