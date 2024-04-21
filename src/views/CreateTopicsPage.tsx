@@ -1,7 +1,10 @@
 import Button from '@/components/Button/Button';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { useValidate } from '@/hooks/useValidate';
+import { generatedTopicsFields } from '@/mappers/topics.mapper';
 import { topicsService } from '@/services/topics.service';
 import { useAppDispatch } from '@/store/hooks';
 import { setTopicsList } from '@/store/topics/topics.slice';
@@ -13,20 +16,32 @@ export default function CreateTopicsPage() {
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbarToast();
 
+  const { validateField, errors, setErrors } = useValidate();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await topicsService.createTopics({ title, description });
-      setTitle('');
-      setDescription('');
-      const topics_response = await topicsService.getAllTopics();
-      dispatch(setTopicsList(topics_response.data));
-
-      if (response.success) {
-        showSnackbar('Topics created successfully', 'success');
-        window.location.href = '/dashboard/topics';
+      const fields = generatedTopicsFields({ title, description }, setErrors);
+      const validate = validateField(fields);
+      if (!validate) {
+        showSnackbar('Please fill in all fields', 'error');
+        return;
       } else {
-        showSnackbar('Failed to create topics', 'error');
+        const response = await topicsService.createTopics({
+          title,
+          description,
+        });
+        setTitle('');
+        setDescription('');
+        const topics_response = await topicsService.getAllTopics();
+        dispatch(setTopicsList(topics_response.data));
+
+        if (response.success) {
+          showSnackbar('Topics created successfully', 'success');
+          window.location.href = '/dashboard/topics';
+        } else {
+          showSnackbar('Failed to create topics', 'error');
+        }
       }
     } catch (error) {
       showSnackbar('Failed to create topics', 'error');
@@ -52,6 +67,7 @@ export default function CreateTopicsPage() {
                 isFull: true,
               }}
             />
+            {errors.title && <InputErrors errors={errors.title} />}
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
@@ -67,6 +83,7 @@ export default function CreateTopicsPage() {
                 isFull: true,
               }}
             />
+            {errors.description && <InputErrors errors={errors.description} />}
           </div>
         </div>
 

@@ -1,8 +1,11 @@
 import Button from '@/components/Button/Button';
 import Dropdown from '@/components/Button/Dropdown';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { useValidate } from '@/hooks/useValidate';
+import { generateCategoryFields } from '@/mappers/category.mapper';
 import { categoryService } from '@/services/category.service';
 import { setCategoryList } from '@/store/category/category.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -17,29 +20,43 @@ export default function CreateCategoryPage() {
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbarToast();
 
+  const { validateField, errors, setErrors } = useValidate();
+
   function toggleTopicsDropdown() {
     setTopicsDropdown(!topicsDropdown);
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const response = await categoryService.createCategory({
-        name,
-        description,
-        topics,
-      });
-      setName('');
-      setDescription('');
-      setTopics('');
-      const category_response = await categoryService.getAllCategory();
-      dispatch(setCategoryList(category_response.data));
+    const fields = generateCategoryFields(
+      { name, description, topics },
+      setErrors
+    );
 
-      if (response.success) {
-        showSnackbar('Category created successfully', 'success');
-        window.location.href = '/dashboard/category';
+    const validate = validateField(fields);
+
+    try {
+      if (!validate) {
+        showSnackbar('Please fill in all fields', 'error');
+        return;
       } else {
-        showSnackbar('Failed to create category', 'error');
+        const response = await categoryService.createCategory({
+          name,
+          description,
+          topics,
+        });
+        setName('');
+        setDescription('');
+        setTopics('');
+        const category_response = await categoryService.getAllCategory();
+        dispatch(setCategoryList(category_response.data));
+
+        if (response.success) {
+          showSnackbar('Category created successfully', 'success');
+          window.location.href = '/dashboard/category';
+        } else {
+          showSnackbar('Failed to create category', 'error');
+        }
       }
     } catch (error) {
       showSnackbar('Failed to create category', 'error');
@@ -65,6 +82,7 @@ export default function CreateCategoryPage() {
                 isFull: true,
               }}
             />
+            {errors.name && <InputErrors errors={errors.name} />}
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
@@ -80,6 +98,7 @@ export default function CreateCategoryPage() {
                 isFull: true,
               }}
             />
+            {errors.description && <InputErrors errors={errors.description} />}
           </div>
         </div>
 
@@ -98,6 +117,7 @@ export default function CreateCategoryPage() {
               onSelectItem: (e: string) => setTopics(e),
             }}
           />
+          {errors.topics && <InputErrors errors={errors.topics} />}
         </div>
 
         <div className='mt-6'>

@@ -1,7 +1,7 @@
 export type BookingDto = {
   user?: string;
   amount_player: number;
-  total_price: number;
+  total_price?: number;
   duration: number;
   room_id: string;
   table_id: string;

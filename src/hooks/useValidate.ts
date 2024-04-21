@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export interface ValidationField {
-  value: string | File | string[] | number;
+  value: string | File | string[] | number | undefined;
   errorSetter: React.Dispatch<React.SetStateAction<ValidationErrors>>;
   valueRef?: string;
   errorMessage: string;
@@ -44,6 +44,13 @@ export const useValidate = () => {
       if (fields[fieldName].value instanceof File) {
         if ((fields[fieldName].value as File).size === 0) {
           newErrors[fieldName] = fields[fieldName].errorMessage;
+          isValid = false;
+        }
+      }
+
+      if (fields[fieldName] && Array.isArray(fields[fieldName].value)) {
+        if ((fields[fieldName].value as string[]).length === 0) {
+          newErrors[fieldName] = 'Value cannot be empty';
           isValid = false;
         }
       }

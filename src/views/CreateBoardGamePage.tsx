@@ -1,7 +1,11 @@
 import Button from '@/components/Button/Button';
 import Dropdown from '@/components/Button/Dropdown';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
+import useSnackbarToast from '@/hooks/useSnackbar';
+import { useValidate } from '@/hooks/useValidate';
+import { generateBoardGameFields } from '@/mappers/boardgame.mapper';
 import { boardGameService } from '@/services/board-game.service';
 import { uploadService } from '@/services/upload.service';
 import { setBoardGameList } from '@/store/board-game/board-game.slice';
@@ -23,7 +27,9 @@ export default function CreateBoardGamePage() {
   const categoryStore = useAppSelector(
     (state) => state.categories.categoryList
   );
+  const { showSnackbar } = useSnackbarToast();
   const dispatch = useAppDispatch();
+  const { validateField, errors, setErrors } = useValidate();
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -52,24 +58,47 @@ export default function CreateBoardGamePage() {
         category &&
         publisher
       ) {
-        const response = await boardGameService.createBoardGame({
-          name,
-          description,
-          price,
-          players_min,
-          players_max,
-          duration,
-          category,
-          publisher,
-          thumbnail: thumbnail.url,
-        });
-        if (response.success) {
-          const board_game_response = await boardGameService.getAllBoardGame(
-            '1',
-            '10'
-          );
-          dispatch(setBoardGameList(board_game_response.data.boardGames));
-          window.location.href = '/dashboard/board-game';
+        const fields = generateBoardGameFields(
+          {
+            name,
+            description,
+            price,
+            players_min,
+            players_max,
+            duration,
+            category,
+            publisher,
+            thumbnail: thumbnail.url,
+          },
+          setErrors
+        );
+        const validate = validateField(fields);
+        if (!validate) {
+          showSnackbar('Please fill in all fields', 'error');
+          return;
+        } else {
+          const response = await boardGameService.createBoardGame({
+            name,
+            description,
+            price,
+            players_min,
+            players_max,
+            duration,
+            category,
+            publisher,
+            thumbnail: thumbnail.url,
+          });
+          if (response.success) {
+            const board_game_response = await boardGameService.getAllBoardGame(
+              '1',
+              '10'
+            );
+            dispatch(setBoardGameList(board_game_response.data.boardGames));
+            showSnackbar('Board Game created successfully', 'success');
+            window.location.href = '/dashboard/board-game';
+          } else {
+            showSnackbar('Failed to create Board Game', 'error');
+          }
         }
       }
     } catch (error) {
@@ -139,6 +168,8 @@ export default function CreateBoardGamePage() {
             </button>
           </div>
         )}
+
+        {errors.thumbnail && <InputErrors errors={errors.thumbnail} />}
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -157,6 +188,7 @@ export default function CreateBoardGamePage() {
                 isFull: true,
               }}
             />
+            {errors.name && <InputErrors errors={errors.name} />}
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
@@ -172,6 +204,7 @@ export default function CreateBoardGamePage() {
                 isFull: true,
               }}
             />
+            {errors.description && <InputErrors errors={errors.description} />}
           </div>
         </div>
         <div className='grid grid-cols-2 gap-4 my-2'>
@@ -189,6 +222,7 @@ export default function CreateBoardGamePage() {
                 isFull: true,
               }}
             />
+            {errors.price && <InputErrors errors={errors.price} />}
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
@@ -204,6 +238,7 @@ export default function CreateBoardGamePage() {
                 isFull: true,
               }}
             />
+            {errors.players_min && <InputErrors errors={errors.players_min} />}
           </div>
         </div>
 
@@ -222,6 +257,7 @@ export default function CreateBoardGamePage() {
                 isFull: true,
               }}
             />
+            {errors.players_max && <InputErrors errors={errors.players_max} />}
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
@@ -237,6 +273,7 @@ export default function CreateBoardGamePage() {
                 isFull: true,
               }}
             />
+            {errors.duration && <InputErrors errors={errors.duration} />}
           </div>
         </div>
 
@@ -255,6 +292,7 @@ export default function CreateBoardGamePage() {
                 isFull: true,
               }}
             />
+            {errors.publisher && <InputErrors errors={errors.publisher} />}
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
@@ -271,6 +309,7 @@ export default function CreateBoardGamePage() {
                 onSelectItem: (e: string) => setCategory(e),
               }}
             />
+            {errors.category && <InputErrors errors={errors.category} />}
           </div>
         </div>
 

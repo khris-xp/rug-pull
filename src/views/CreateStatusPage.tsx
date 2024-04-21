@@ -1,8 +1,11 @@
 import Button from '@/components/Button/Button';
 import Dropdown from '@/components/Button/Dropdown';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { useValidate } from '@/hooks/useValidate';
+import { generateStatusFields } from '@/mappers/status.mapper';
 import { statusService } from '@/services/status.service';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setStatusList } from '@/store/status/status.slice';
@@ -17,29 +20,41 @@ export default function CreateStatusPage() {
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbarToast();
 
+  const { validateField, errors, setErrors } = useValidate();
+
   function toggleTopicsDropdown() {
     setTopicsDropdown(!topicsDropdown);
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const fields = generateStatusFields(
+      { name, description, topics },
+      setErrors
+    );
+    const validate = validateField(fields);
     try {
-      const response = await statusService.createStatus({
-        name,
-        description,
-        topics,
-      });
-      setName('');
-      setDescription('');
-      setTopics('');
-      const status_response = await statusService.getAllStatus();
-      dispatch(setStatusList(status_response.data));
-
-      if (response.success) {
-        showSnackbar('Status created successfully', 'success');
-        window.location.href = '/dashboard/status';
+      if (!validate) {
+        showSnackbar('Please fill in all fields', 'error');
+        return;
       } else {
-        showSnackbar('Failed to create status', 'error');
+        const response = await statusService.createStatus({
+          name,
+          description,
+          topics,
+        });
+        setName('');
+        setDescription('');
+        setTopics('');
+        const status_response = await statusService.getAllStatus();
+        dispatch(setStatusList(status_response.data));
+
+        if (response.success) {
+          showSnackbar('Status created successfully', 'success');
+          window.location.href = '/dashboard/status';
+        } else {
+          showSnackbar('Failed to create status', 'error');
+        }
       }
     } catch (error) {
       showSnackbar('Failed to create status', 'error');
@@ -65,6 +80,7 @@ export default function CreateStatusPage() {
                 isFull: true,
               }}
             />
+            {errors.name && <InputErrors errors={errors.name} />}
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
@@ -80,6 +96,7 @@ export default function CreateStatusPage() {
                 isFull: true,
               }}
             />
+            {errors.description && <InputErrors errors={errors.description} />}
           </div>
         </div>
 

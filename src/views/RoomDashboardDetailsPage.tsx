@@ -1,8 +1,11 @@
 import Button from '@/components/Button/Button';
 import Dropdown from '@/components/Button/Dropdown';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { useValidate } from '@/hooks/useValidate';
+import { generateRoomFields } from '@/mappers/room.mapper';
 import { roomService } from '@/services/room.service';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setRoomList } from '@/store/room/room.slice';
@@ -20,6 +23,7 @@ export default function RoomDashboardDeatilsPage() {
   const statusList = useAppSelector((state) => state.status.statusList);
   const tables = useAppSelector((state) => state.table.tableList);
   const [selectedTables, setSelectedTables] = useState<string[]>([]);
+  const { validateField, errors, setErrors } = useValidate();
 
   const toggleStatusDropdown = () => {
     setStatusDropdown(!statusDropdown);
@@ -45,22 +49,33 @@ export default function RoomDashboardDeatilsPage() {
     e.preventDefault();
     try {
       if (capacity) {
-        const response = await roomService.createRoom({
-          name,
-          capacity,
-          status,
-          tables: selectedTables,
-        });
-        setName('');
-        setCapacity(0);
-        const room_response = await roomService.getAllRoom();
-        dispatch(setRoomList(room_response.data));
+        const fields = generateRoomFields(
+          { name, capacity, status, tables: selectedTables },
+          setErrors
+        );
+        const validate = validateField(fields);
 
-        if (response.success) {
-          showSnackbar('Room created successfully', 'success');
-          window.location.href = '/dashboard/room';
+        if (!validate) {
+          showSnackbar('Please fill in all fields', 'error');
+          return;
         } else {
-          showSnackbar('Failed to create room', 'error');
+          const response = await roomService.updateRoom(id, {
+            name,
+            capacity,
+            status,
+            tables: selectedTables,
+          });
+          setName('');
+          setCapacity(0);
+          const room_response = await roomService.getAllRoom();
+          dispatch(setRoomList(room_response.data));
+
+          if (response.success) {
+            showSnackbar('Room created successfully', 'success');
+            window.location.href = '/dashboard/room';
+          } else {
+            showSnackbar('Failed to create room', 'error');
+          }
         }
       }
     } catch (error) {
@@ -91,6 +106,7 @@ export default function RoomDashboardDeatilsPage() {
                 isFull: true,
               }}
             />
+            {errors.name && <InputErrors errors={errors.name} />}
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
@@ -106,6 +122,7 @@ export default function RoomDashboardDeatilsPage() {
                 isFull: true,
               }}
             />
+            {errors.capacity && <InputErrors errors={errors.capacity} />}
           </div>
         </div>
 
@@ -124,6 +141,7 @@ export default function RoomDashboardDeatilsPage() {
               onSelectItem: (e: string) => setStatus(e),
             }}
           />
+          {errors.status && <InputErrors errors={errors.status} />}
         </div>
 
         <div className='mt-4'>

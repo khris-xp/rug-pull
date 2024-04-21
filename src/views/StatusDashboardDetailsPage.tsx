@@ -1,8 +1,11 @@
 import Button from '@/components/Button/Button';
 import Dropdown from '@/components/Button/Dropdown';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { useValidate } from '@/hooks/useValidate';
+import { generateStatusFields } from '@/mappers/status.mapper';
 import { statusService } from '@/services/status.service';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setStatusList } from '@/store/status/status.slice';
@@ -19,6 +22,8 @@ export default function StatusDashboardDetailsPage() {
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbarToast();
 
+  const { validateField, errors, setErrors } = useValidate();
+
   const fetchStatus = useCallback(async () => {
     const response = await statusService.getStatusById(id);
     setName(response.data.name);
@@ -32,23 +37,34 @@ export default function StatusDashboardDetailsPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const response = await statusService.updateStatus(id, {
-        name,
-        description,
-        topics,
-      });
-      setName('');
-      setDescription('');
-      setTopics('');
-      const status_response = await statusService.getAllStatus();
-      dispatch(setStatusList(status_response.data));
+    const fields = generateStatusFields(
+      { name, description, topics },
+      setErrors
+    );
 
-      if (response.success) {
-        showSnackbar('Status edit successfully', 'success');
-        window.location.href = '/dashboard/status';
+    const validate = validateField(fields);
+    try {
+      if (!validate) {
+        showSnackbar('Please fill in all fields', 'error');
+        return;
       } else {
-        showSnackbar('Failed to edit status', 'error');
+        const response = await statusService.updateStatus(id, {
+          name,
+          description,
+          topics,
+        });
+        setName('');
+        setDescription('');
+        setTopics('');
+        const status_response = await statusService.getAllStatus();
+        dispatch(setStatusList(status_response.data));
+
+        if (response.success) {
+          showSnackbar('Status edit successfully', 'success');
+          window.location.href = '/dashboard/status';
+        } else {
+          showSnackbar('Failed to edit status', 'error');
+        }
       }
     } catch (error) {
       showSnackbar('Failed to edit status', 'error');
@@ -79,6 +95,7 @@ export default function StatusDashboardDetailsPage() {
                   isFull: true,
                 }}
               />
+              {errors.name && <InputErrors errors={errors.name} />}
             </div>
             <div>
               <label className='block text-sm font-medium text-gray-700'>
@@ -94,6 +111,9 @@ export default function StatusDashboardDetailsPage() {
                   isFull: true,
                 }}
               />
+              {errors.description && (
+                <InputErrors errors={errors.description} />
+              )}
             </div>
           </div>
 
@@ -112,6 +132,7 @@ export default function StatusDashboardDetailsPage() {
                 onSelectItem: (e: string) => setTopics(e),
               }}
             />
+            {errors.topics && <InputErrors errors={errors.topics} />}
           </div>
 
           <div className='mt-6'>

@@ -1,7 +1,10 @@
 import Button from '@/components/Button/Button';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { useValidate } from '@/hooks/useValidate';
+import { generatedTopicsFields } from '@/mappers/topics.mapper';
 import { topicsService } from '@/services/topics.service';
 import { useAppDispatch } from '@/store/hooks';
 import { setTopicsList } from '@/store/topics/topics.slice';
@@ -9,6 +12,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 export default function TopicsDashboardDetailsPage() {
+  const { validateField, errors, setErrors } = useValidate();
+
   const { id } = useParams();
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -23,21 +28,28 @@ export default function TopicsDashboardDetailsPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const fields = generatedTopicsFields({ title, description }, setErrors);
+    const validate = validateField(fields);
     try {
-      const response = await topicsService.updateTopics(id, {
-        title,
-        description,
-      });
-      setTitle('');
-      setDescription('');
-      const topics_response = await topicsService.getAllTopics();
-      dispatch(setTopicsList(topics_response.data));
-
-      if (response.success) {
-        showSnackbar('Topics edit successfully', 'success');
-        window.location.href = '/dashboard/topics';
+      if (!validate) {
+        showSnackbar('Please fill in all fields', 'error');
+        return;
       } else {
-        showSnackbar('Failed to edit topics', 'error');
+        const response = await topicsService.updateTopics(id, {
+          title,
+          description,
+        });
+        setTitle('');
+        setDescription('');
+        const topics_response = await topicsService.getAllTopics();
+        dispatch(setTopicsList(topics_response.data));
+
+        if (response.success) {
+          showSnackbar('Topics edit successfully', 'success');
+          window.location.href = '/dashboard/topics';
+        } else {
+          showSnackbar('Failed to edit topics', 'error');
+        }
       }
     } catch (error) {
       showSnackbar('Failed to edit topics', 'error');
@@ -67,6 +79,7 @@ export default function TopicsDashboardDetailsPage() {
                 isFull: true,
               }}
             />
+            {errors.title && <InputErrors errors={errors.title} />}
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
@@ -82,6 +95,7 @@ export default function TopicsDashboardDetailsPage() {
                 isFull: true,
               }}
             />
+            {errors.description && <InputErrors errors={errors.description} />}
           </div>
         </div>
 

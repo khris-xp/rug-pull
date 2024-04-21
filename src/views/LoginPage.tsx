@@ -24,9 +24,9 @@ export default function LoginPage() {
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
     const fields = generateLoginFields({ email, password }, setErrors);
-    validateField(fields);
+    const validate = validateField(fields);
     try {
-      if (!email || !password) {
+      if (!validate) {
         showSnackbar('Please fill in all fields', 'error');
       } else {
         const loginRequest = { email, password };

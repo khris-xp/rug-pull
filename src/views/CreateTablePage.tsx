@@ -1,7 +1,10 @@
 import Button from '@/components/Button/Button';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { useValidate } from '@/hooks/useValidate';
+import { generateTableFields } from '@/mappers/table.mapper';
 import { tableService } from '@/services/table.service';
 import { useAppDispatch } from '@/store/hooks';
 import { setTableList } from '@/store/table/table.slice';
@@ -12,22 +15,30 @@ export default function CreateTablePage() {
   const [capacity, setCapacity] = useState<number>();
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbarToast();
+  const { validateField, errors, setErrors } = useValidate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if (capacity) {
-        const response = await tableService.createTable({ number, capacity });
-        setNumber('');
-        setCapacity(0);
-        const table_response = await tableService.getAllTable();
-        dispatch(setTableList(table_response.data));
-
-        if (response.success) {
-          showSnackbar('Table created successfully', 'success');
-          window.location.href = '/dashboard/table';
+        const fields = generateTableFields({ number, capacity }, setErrors);
+        const validate = validateField(fields);
+        if (!validate) {
+          showSnackbar('Please fill in all fields', 'error');
+          return;
         } else {
-          showSnackbar('Failed to create table', 'error');
+          const response = await tableService.createTable({ number, capacity });
+          setNumber('');
+          setCapacity(0);
+          const table_response = await tableService.getAllTable();
+          dispatch(setTableList(table_response.data));
+
+          if (response.success) {
+            showSnackbar('Table created successfully', 'success');
+            window.location.href = '/dashboard/table';
+          } else {
+            showSnackbar('Failed to create table', 'error');
+          }
         }
       }
     } catch (error) {
@@ -54,6 +65,7 @@ export default function CreateTablePage() {
                 isFull: true,
               }}
             />
+            {errors.number && <InputErrors errors={errors.number} />}
           </div>
           <div>
             <label className='block text-sm font-medium text-gray-700'>
@@ -62,13 +74,14 @@ export default function CreateTablePage() {
             <Spacer margin='my-2' />
             <Input
               props={{
-                variant: 'text',
+                variant: 'number',
                 value: capacity,
                 onChange: (e) => setCapacity(Number(e.target.value)),
                 placeholder: 'Table capacity',
                 isFull: true,
               }}
             />
+            {errors.capacity && <InputErrors errors={errors.capacity} />}
           </div>
         </div>
 

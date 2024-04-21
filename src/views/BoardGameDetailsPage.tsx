@@ -1,6 +1,9 @@
 import Button from '@/components/Button/Button';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { useValidate } from '@/hooks/useValidate';
+import { generateBookingFields } from '@/mappers/booking.mapper';
 import { boardGameService } from '@/services/board-game.service';
 import { bookingService } from '@/services/booked.service';
 import { roomService } from '@/services/room.service';
@@ -29,6 +32,7 @@ export default function BoardGameDetailsPage() {
   const [amount_player, setAmountPlayer] = useState<number>(0);
   const userData = useAppSelector((state) => state.auth.user);
   const { showSnackbar } = useSnackbarToast();
+  const { validateField, errors, setErrors } = useValidate();
 
   const hanldeBooking = async () => {
     try {
@@ -41,27 +45,48 @@ export default function BoardGameDetailsPage() {
         userData ||
         boardGame
       ) {
-        const duration = moment(selectedEndDate).diff(
-          selectedStartDate,
-          'hours'
+        const fields = generateBookingFields(
+          {
+            user: userData?._id,
+            amount_player,
+            total_price: boardGame?.price,
+            duration: moment(selectedEndDate).diff(moment(selectedStartDate)),
+            room_id: selectedRoom,
+            board_game_id: boardGame?._id,
+            table_id: selectedTable,
+            status: 'pending',
+            start_time: selectedStartDate,
+            end_time: selectedEndDate,
+          },
+          setErrors
         );
-        const response = await bookingService.createBooking({
-          table_id: selectedTable,
-          user: userData?._id,
-          room_id: selectedRoom,
-          start_time: selectedStartDate,
-          end_time: selectedEndDate,
-          amount_player: amount_player,
-          total_price: boardGame ? boardGame.price * amount_player : 0,
-          duration: duration * 60,
-          board_game_id: boardGame?._id,
-          status: 'pending',
-        });
-
-        if (response.success) {
-          showSnackbar('Booking success', 'success');
+        const validate = validateField(fields);
+        if (!validate) {
+          showSnackbar('Please fill all fields', 'error');
+          return;
         } else {
-          showSnackbar('Booking failed', 'error');
+          const duration = moment(selectedEndDate).diff(
+            selectedStartDate,
+            'hours'
+          );
+          const response = await bookingService.createBooking({
+            table_id: selectedTable,
+            user: userData?._id,
+            room_id: selectedRoom,
+            start_time: selectedStartDate,
+            end_time: selectedEndDate,
+            amount_player: amount_player,
+            total_price: boardGame ? boardGame.price * amount_player : 0,
+            duration: duration * 60,
+            board_game_id: boardGame?._id,
+            status: 'Pending',
+          });
+
+          if (response.success) {
+            showSnackbar('Booking success', 'success');
+          } else {
+            showSnackbar('Booking failed', 'error');
+          }
         }
       }
     } catch (error) {
@@ -228,6 +253,7 @@ export default function BoardGameDetailsPage() {
                   {room.name}
                 </button>
               ))}
+              {errors.roomId && <InputErrors errors={errors.roomId} />}
             </div>
 
             {selectedRoom !== '' && (
@@ -252,6 +278,7 @@ export default function BoardGameDetailsPage() {
                       ))}
                     </>
                   )}
+                  {errors.tableId && <InputErrors errors={errors.tableId} />}
                 </div>
               </>
             )}
@@ -280,6 +307,9 @@ export default function BoardGameDetailsPage() {
                         return current.isAfter(moment().subtract(1, 'days'));
                       }}
                     />
+                    {errors.startTime && (
+                      <InputErrors errors={errors.startTime} />
+                    )}
                   </div>
                   <div className='mt-8'>
                     <h2 className='text-base text-gray-900 mb-2'>
@@ -295,6 +325,7 @@ export default function BoardGameDetailsPage() {
                         )
                       }
                     />
+                    {errors.endTime && <InputErrors errors={errors.endTime} />}
                   </div>
                 </div>
                 <div>
@@ -312,6 +343,9 @@ export default function BoardGameDetailsPage() {
                         isFull: true,
                       }}
                     />
+                    {errors.amountPlayer && (
+                      <InputErrors errors={errors.amountPlayer} />
+                    )}
                   </div>
                 </div>
               </>

@@ -1,7 +1,10 @@
 import Button from '@/components/Button/Button';
+import InputErrors from '@/components/Errors/InputErrors';
 import Input from '@/components/Input/Input';
 import Spacer from '@/components/Spacer/Spacer';
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { useValidate } from '@/hooks/useValidate';
+import { generateTableFields } from '@/mappers/table.mapper';
 import { tableService } from '@/services/table.service';
 import { useAppDispatch } from '@/store/hooks';
 import { setTableList } from '@/store/table/table.slice';
@@ -13,26 +16,34 @@ export default function TabldeDasboardDetailsPage() {
   const [number, setNumber] = useState('');
   const [capacity, setCapacity] = useState(0);
   const { showSnackbar } = useSnackbarToast();
+  const { validateField, errors, setErrors } = useValidate();
 
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await tableService.updateTable(id, {
-        number,
-        capacity,
-      });
-      setNumber('');
-      setCapacity(0);
-      const table_response = await tableService.getAllTable();
-      dispatch(setTableList(table_response.data));
-
-      if (response.success) {
-        showSnackbar('Table edit successfully', 'success');
-        window.location.href = '/dashboard/table';
+      const fields = generateTableFields({ number, capacity }, setErrors);
+      const validate = validateField(fields);
+      if (!validate) {
+        showSnackbar('Please fill in all fields', 'error');
+        return;
       } else {
-        showSnackbar('Failed to edit table', 'error');
+        const response = await tableService.updateTable(id, {
+          number,
+          capacity,
+        });
+        setNumber('');
+        setCapacity(0);
+        const table_response = await tableService.getAllTable();
+        dispatch(setTableList(table_response.data));
+
+        if (response.success) {
+          showSnackbar('Table edit successfully', 'success');
+          window.location.href = '/dashboard/table';
+        } else {
+          showSnackbar('Failed to edit table', 'error');
+        }
       }
     } catch (error) {
       showSnackbar('Failed to edit table', 'error');
@@ -70,6 +81,7 @@ export default function TabldeDasboardDetailsPage() {
                   isFull: true,
                 }}
               />
+              {errors.number && <InputErrors errors={errors.number} />}
             </div>
             <div>
               <label className='block text-sm font-medium text-gray-700'>
@@ -85,6 +97,7 @@ export default function TabldeDasboardDetailsPage() {
                   isFull: true,
                 }}
               />
+              {errors.capacity && <InputErrors errors={errors.capacity} />}
             </div>
           </div>
 
