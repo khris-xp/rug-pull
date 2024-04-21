@@ -37,5 +37,6 @@ export type TableModelListResponse = APIResponseType<TableModelType[]>;
 export type TableModelResponse = APIResponseType<TableModelType>;
 export type ImageModelResponse = APIResponseType<ImageModelType>;
 export type BookingModelListResponse = APIResponseType<CommonBookingModelType>;
+export type BookingListResponse = APIResponseType<BookingModelType[]>;
 export type BookingModelResponse = APIResponseType<BookingModelType>;
 export type PaymentModelResponse = APIResponseType<PaymentType>;

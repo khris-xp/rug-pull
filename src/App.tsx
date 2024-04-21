@@ -4,6 +4,7 @@ import BoardGameDashboardDetailsPage from '@/views/BoardGameDashboardDetailsPage
 import BoardGameDasgboardPage from '@/views/BoardGameDashboardPage';
 import BoardGameDetailsPage from '@/views/BoardGameDetailsPage';
 import BoardGamePage from '@/views/BoardGamePage';
+import BookingDashboardDetailsPage from '@/views/BookingDashboardDetailsPage';
 import BookingDashboardPage from '@/views/BookingDashboardPage';
 import CategoryDashboardDetailsPage from '@/views/CategoryDashboardDetailsPage';
 import CateogryDashboradPage from '@/views/CategoryDashboardPage';
@@ -13,6 +14,7 @@ import CreateRoomPage from '@/views/CreateRoomPage';
 import CreateStatusPage from '@/views/CreateStatusPage';
 import CreateTablePage from '@/views/CreateTablePage';
 import CreateTopicsPage from '@/views/CreateTopicsPage';
+import HistoryPage from '@/views/HistoryPage';
 import HomePage from '@/views/HomePage';
 import LoginPage from '@/views/LoginPage';
 import PaymentSuccessPage from '@/views/PaymentSuccess';
@@ -28,7 +30,6 @@ import TopicsDashboardDetailsPage from '@/views/TopicsDashboardDetailsPage';
 import TopicsDashboardPage from '@/views/TopicsDashboardPage';
 import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import BookingDashboardDetailsPage from './views/BookingDashboardDetailsPage';
 
 const NoPage = lazy(() => import('@/views/NoPage'));
 
@@ -104,6 +105,7 @@ function App() {
             path='/dashboard/booking/:id'
             element={<BookingDashboardDetailsPage />}
           />
+          <Route path='/history' element={<HistoryPage />} />
         </Route>
         <Route path='*' element={<NoPage />} />
       </Routes>

@@ -26,6 +26,7 @@ export async function apiController<T>(
     | UpdateBookingDto
     | PaymentDto
     | { public_id: string }
+    | { user_id: string }
 ): Promise<T> {
   try {
     const response = await axiosInstance.request({ url, method, data });
