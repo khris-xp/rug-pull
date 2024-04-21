@@ -1,11 +1,5 @@
 export type CommonBoardGameModelType = {
-  data: BoardGameModelType[];
-  page: number;
-  limit: number;
-};
-
-export type BoardGameModelDataType = {
-  boardGames: CommonBoardGameModelType;
+  boardGames: BoardGameModelType[];
   totalPages: number;
   currentPage: number;
   totalItems: number;

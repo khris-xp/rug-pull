@@ -47,6 +47,19 @@ export const useValidate = () => {
           isValid = false;
         }
       }
+
+      if (typeof fields[fieldName].value === 'number') {
+        const numericValue = Number(fields[fieldName].value);
+        if (!isNaN(numericValue)) {
+          if (numericValue < 0) {
+            newErrors[fieldName] = 'Value must be greater than 0';
+            isValid = false;
+          }
+        } else {
+          newErrors[fieldName] = 'Value must be a valid number';
+          isValid = false;
+        }
+      }
     }
     setErrors(newErrors);
     return isValid;

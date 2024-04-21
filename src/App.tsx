@@ -28,6 +28,7 @@ import TopicsDashboardDetailsPage from '@/views/TopicsDashboardDetailsPage';
 import TopicsDashboardPage from '@/views/TopicsDashboardPage';
 import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import BookingDashboardDetailsPage from './views/BookingDashboardDetailsPage';
 
 const NoPage = lazy(() => import('@/views/NoPage'));
 
@@ -99,6 +100,10 @@ function App() {
           />
           <Route path='/about-us' element={<AboutusPage />} />
           <Route path='/payment-success' element={<PaymentSuccessPage />} />
+          <Route
+            path='/dashboard/booking/:id'
+            element={<BookingDashboardDetailsPage />}
+          />
         </Route>
         <Route path='*' element={<NoPage />} />
       </Routes>

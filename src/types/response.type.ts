@@ -1,6 +1,9 @@
 import { AuthResponseType } from './auth.type';
-import { BoardGameModelDataType, BoardGameModelType } from './board-game.type';
-import { BookingModelType } from './booking.type';
+import {
+  BoardGameModelType,
+  CommonBoardGameModelType,
+} from './board-game.type';
+import { BookingModelType, CommonBookingModelType } from './booking.type';
 import { CategoryModelType } from './category.type';
 import { RoomModelType } from './room.type';
 import { StatusModelType } from './status.type';
@@ -8,7 +11,6 @@ import { TableModelType } from './table.type';
 import { TopicsType } from './topics.type';
 import { ImageModelType } from './upload.type';
 import { UserType } from './user.type';
-import { CommonBookingModelType } from './booking.type';
 
 export type APIResponseType<T> = {
   status: number;
@@ -18,7 +20,7 @@ export type APIResponseType<T> = {
 };
 
 export type BoardGameModelListResponse =
-  APIResponseType<BoardGameModelDataType>;
+  APIResponseType<CommonBoardGameModelType>;
 export type BoardGameModelResponse = APIResponseType<BoardGameModelType>;
 export type RoomModelListResponse = APIResponseType<RoomModelType[]>;
 export type RoomModelResponse = APIResponseType<RoomModelType>;

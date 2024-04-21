@@ -10,6 +10,8 @@ import { useAppDispatch } from '@/store/hooks';
 import { BookingModelType } from '@/types/booking.type';
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Loading from '../Loading/Loading';
+import Pagination from '../Pagination/Pagination';
 
 export default function BookingTable() {
   const [booking, setBooking] = useState<BookingModelType[]>([]);
@@ -23,11 +25,26 @@ export default function BookingTable() {
   const [userNames, setUserNames] = useState<{ [key: string]: string }>({});
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbarToast();
+  const [totalPages, setTotalPages] = useState(1);
+  const LIMIT = 10;
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const fetchBooking = useCallback(async () => {
+  const calPagination = useCallback(() => {
+    if (totalPages) {
+      return Math.ceil(totalPages / LIMIT);
+    }
+    return 1;
+  }, [totalPages]);
+
+  const fetchBooking = useCallback(async (page: number) => {
     try {
-      const response = await bookingService.getBookings();
-      setBooking(response.data.data);
+      const response = await bookingService.getBookings(
+        String(page),
+        String(LIMIT)
+      );
+      setBooking(response.data.bookings);
+      setCurrentPage(response.data.currentPage);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.log(error);
     }
@@ -81,7 +98,7 @@ export default function BookingTable() {
   };
 
   useEffect(() => {
-    fetchBooking();
+    fetchBooking(1);
   }, [fetchBooking]);
 
   useEffect(() => {
@@ -142,26 +159,27 @@ export default function BookingTable() {
 
   return (
     <>
-      <div className='overflow-x-auto mx-auto container mt-10'>
-        <table className='table'>
-          <thead>
-            <tr className='text-center'>
-              <th>User</th>
-              <th>Board Game</th>
-              <th>Room</th>
-              <th>Table</th>
-              <th>Status</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Total Price</th>
-              <th>Duration</th>
-              <th>Created At</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(booking) && booking.length > 0 ? (
-              <>
+      {booking ? (
+        <>
+          <div className='overflow-x-auto mx-auto container mt-10'>
+            <table className='table'>
+              <thead>
+                <tr className='text-center'>
+                  <th>User</th>
+                  <th>Board Game</th>
+                  <th>Room</th>
+                  <th>Table</th>
+                  <th>Status</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Total Price</th>
+                  <th>Amount Player</th>
+                  <th>Duration</th>
+                  <th>Created At</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
                 {booking.map((boooked) => (
                   <tr key={boooked._id} className='text-center'>
                     <td>
@@ -176,6 +194,7 @@ export default function BookingTable() {
                     <td>{formatDateDifference(boooked.start_time)}</td>
                     <td>{formatDateDifference(boooked.end_time)}</td>
                     <td>{boooked.total_price}</td>
+                    <td>{boooked.amount_player}</td>
                     <td>{boooked.duration}</td>
                     <td>{formatDateDifference(boooked.createdAt)}</td>
                     <th>
@@ -193,17 +212,21 @@ export default function BookingTable() {
                     </th>
                   </tr>
                 ))}
-              </>
-            ) : (
-              <tr>
-                <td colSpan={5} className='text-center'>
-                  No bookings found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              </tbody>
+            </table>
+          </div>
+          <div className='flex justify-center mt-7'>
+            <Pagination
+              totalItems={calPagination()}
+              itemsPerPage={LIMIT}
+              currentPage={parseInt(String(currentPage))}
+              onPageChange={fetchBooking}
+            />
+          </div>
+        </>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

@@ -1,7 +1,8 @@
 export type CommonBookingModelType = {
-  data: BookingModelType[];
-  page: number;
-  limit: number;
+  bookings: BookingModelType[];
+  totalPages: number;
+  currentPage: number;
+  totalItems: number;
 };
 
 export type BookingModelType = {

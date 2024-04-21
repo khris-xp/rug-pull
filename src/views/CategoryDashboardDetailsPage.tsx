@@ -61,7 +61,6 @@ export default function CategoryDashboardDetailsPage() {
   return (
     <div className='bg-white p-8 rounded shadow-md max-w-3xl w-full mx-auto mt-10'>
       <h2 className='text-2xl font-semibold mb-4'>Edit Category</h2>
-
       <form onSubmit={handleSubmit}>
         <div className='grid grid-cols-2 gap-4'>
           <div>

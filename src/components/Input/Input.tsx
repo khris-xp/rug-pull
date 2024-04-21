@@ -11,12 +11,13 @@ interface IInputProps {
   value?: string | number;
   isFull?: boolean;
   selectOptions?: ISelectOption[];
-  onChange: (
+  onChange?: (
     event: ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => void;
   row?: number;
+  disabled?: boolean;
 }
 
 const Input: React.FC<{ props: IInputProps }> = ({ props }) => {
@@ -34,6 +35,7 @@ const Input: React.FC<{ props: IInputProps }> = ({ props }) => {
           onChange={props.onChange}
           placeholder={props.placeholder}
           className={inputClasses}
+          disabled={props.disabled}
         />
       );
 

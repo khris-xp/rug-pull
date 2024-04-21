@@ -30,7 +30,7 @@ export default function BoardGameTable() {
           String(page),
           String(LIMIT)
         );
-        dispatch(setBoardGameList(response.data.boardGames.data));
+        dispatch(setBoardGameList(response.data.boardGames));
         setCurrentPage(response.data.currentPage);
         setTotalPages(response.data.totalPages);
       }
@@ -46,7 +46,7 @@ export default function BoardGameTable() {
           '1',
           '10'
         );
-        dispatch(setBoardGameList(boardGame_response.data.boardGames.data));
+        dispatch(setBoardGameList(boardGame_response.data.boardGames));
         showSnackbar('Board Game deleted successfully', 'success');
       }
     } catch (error) {

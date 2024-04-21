@@ -17,7 +17,7 @@ export default function HomePage() {
   const fetchBoardGames = useCallback(async () => {
     if (boardGames.length === 0) {
       const response = await boardGameService.getAllBoardGame('1', '10');
-      dispatch(setBoardGameList(response.data.boardGames.data));
+      dispatch(setBoardGameList(response.data.boardGames));
     }
   }, [boardGames.length, dispatch]);
 

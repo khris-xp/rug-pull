@@ -36,7 +36,7 @@ export default function BoardGamePage() {
           String(page),
           String(LIMIT)
         );
-        dispatch(setBoardGameList(response.data.boardGames.data));
+        dispatch(setBoardGameList(response.data.boardGames));
         setCurrentPage(response.data.currentPage);
         setTotalPages(response.data.totalPages);
       }

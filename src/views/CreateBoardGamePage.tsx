@@ -68,7 +68,7 @@ export default function CreateBoardGamePage() {
             '1',
             '10'
           );
-          dispatch(setBoardGameList(board_game_response.data.boardGames.data));
+          dispatch(setBoardGameList(board_game_response.data.boardGames));
           window.location.href = '/dashboard/board-game';
         }
       }

@@ -1,4 +1,4 @@
-import { BookingDto } from '@/common/dto/booking.dto';
+import { BookingDto, UpdateBookingDto } from '@/common/dto/booking.dto';
 import { apiController } from '@/controller/api.controller';
 import {
   BookingModelListResponse,
@@ -6,9 +6,12 @@ import {
 } from '@/types/response.type';
 
 export const bookingService = {
-  getBookings: async (): Promise<BookingModelListResponse> => {
+  getBookings: async (
+    page: string,
+    limit: string
+  ): Promise<BookingModelListResponse> => {
     return await apiController<BookingModelListResponse>(
-      '/api/bookings',
+      `/api/bookings?page=${page}&limit=${limit}&sortBy=createdAt&sortOrder=asc`,
       'get'
     );
   },
@@ -27,7 +30,7 @@ export const bookingService = {
   },
   updateBooking: async (
     id: string | undefined,
-    data: BookingDto
+    data: UpdateBookingDto
   ): Promise<BookingModelResponse> => {
     return await apiController<BookingModelResponse>(
       `/api/bookings/${id}`,

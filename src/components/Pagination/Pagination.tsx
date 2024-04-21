@@ -53,7 +53,7 @@ const Pagination: React.FC<IProps> = (props) => {
                   fontWeight: 'font-normal',
                 }}
                 props={{
-                  onClick: () => props.onPageChange(0),
+                  onClick: () => props.onPageChange(1),
                   text: '1',
                   type: 'button',
                 }}
@@ -78,10 +78,10 @@ const Pagination: React.FC<IProps> = (props) => {
                   fontWeight: 'font-normal',
                 }}
                 props={{
-                  onClick: () => props.onPageChange(page - 1),
+                  onClick: () => props.onPageChange(page),
                   text: page.toString(),
                   type: 'button',
-                  disabled: props.currentPage === page - 1,
+                  disabled: props.currentPage === page,
                 }}
               />
             </div>
