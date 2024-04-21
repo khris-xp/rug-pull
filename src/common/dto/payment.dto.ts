@@ -1,6 +1,6 @@
 export type PaymentDto = {
   user?: string;
-  booking: string;
+  bookingId: string;
   total: number;
   status: string;
 };

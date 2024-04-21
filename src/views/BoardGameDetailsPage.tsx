@@ -86,8 +86,8 @@ export default function BoardGameDetailsPage() {
           if (response.success) {
             const paymentResponse = await paymentService.createPayment({
               user: userData?._id,
-              booking: response.data._id,
-              total: boardGame ? boardGame.price : 0,
+              bookingId: response.data._id,
+              total: boardGame ? boardGame.price * 100 : 0,
               status: 'Pending',
             });
 
