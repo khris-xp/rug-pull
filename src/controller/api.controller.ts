@@ -2,6 +2,7 @@ import { LoginDto, RegisterDto } from '@/common/dto/auth.dto';
 import { BoardGameDto } from '@/common/dto/board-game.dto';
 import { BookingDto, UpdateBookingDto } from '@/common/dto/booking.dto';
 import { CateogryDto } from '@/common/dto/category.dto';
+import { PaymentDto } from '@/common/dto/payment.dto';
 import { RoomDto } from '@/common/dto/room.dto';
 import { StatusDto } from '@/common/dto/status.dto';
 import { TableDto } from '@/common/dto/table.dto';
@@ -23,6 +24,7 @@ export async function apiController<T>(
     | FormData
     | BookingDto
     | UpdateBookingDto
+    | PaymentDto
     | { public_id: string }
 ): Promise<T> {
   try {

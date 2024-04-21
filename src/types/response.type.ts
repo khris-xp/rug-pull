@@ -5,6 +5,7 @@ import {
 } from './board-game.type';
 import { BookingModelType, CommonBookingModelType } from './booking.type';
 import { CategoryModelType } from './category.type';
+import { PaymentType } from './payment.type';
 import { RoomModelType } from './room.type';
 import { StatusModelType } from './status.type';
 import { TableModelType } from './table.type';
@@ -37,3 +38,4 @@ export type TableModelResponse = APIResponseType<TableModelType>;
 export type ImageModelResponse = APIResponseType<ImageModelType>;
 export type BookingModelListResponse = APIResponseType<CommonBookingModelType>;
 export type BookingModelResponse = APIResponseType<BookingModelType>;
+export type PaymentModelResponse = APIResponseType<PaymentType>;
