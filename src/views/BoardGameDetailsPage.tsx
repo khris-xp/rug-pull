@@ -26,48 +26,46 @@ export default function BoardGameDetailsPage() {
   const [tableData, setTableData] = useState<TableModelType[]>([]);
   const [selectedStartDate, setSelectedStartDate] = useState<string>('');
   const [selectedEndDate, setSelectedEndDate] = useState<string>('');
-  const [duration, setDuration] = useState<number>(0);
   const [amount_player, setAmountPlayer] = useState<number>(0);
   const userData = useAppSelector((state) => state.auth.user);
   const { showSnackbar } = useSnackbarToast();
 
-  const calculateDuration = () => {
-    const start = moment(selectedStartDate);
-    const end = moment(selectedEndDate);
-    setDuration(end.diff(start, 'hours'));
-    console.log(duration);
-  };
-
   const hanldeBooking = async () => {
-    if (
-      selectedRoom === '' ||
-      selectedTable === '' ||
-      selectedStartDate === '' ||
-      selectedEndDate === '' ||
-      amount_player === 0 ||
-      duration === 0 ||
-      userData ||
-      boardGame
-    ) {
-      calculateDuration();
-      const response = await bookingService.createBooking({
-        table_id: selectedTable,
-        user: userData?._id,
-        room_id: selectedRoom,
-        start_time: selectedStartDate,
-        end_time: selectedEndDate,
-        amount_player: amount_player,
-        total_price: boardGame ? boardGame.price * amount_player : 0,
-        duration: duration * 60,
-        board_game_id: boardGame?._id,
-        status: 'pending',
-      });
+    try {
+      if (
+        selectedRoom === '' ||
+        selectedTable === '' ||
+        selectedStartDate === '' ||
+        selectedEndDate === '' ||
+        amount_player === 0 ||
+        userData ||
+        boardGame
+      ) {
+        const duration = moment(selectedEndDate).diff(
+          selectedStartDate,
+          'hours'
+        );
+        const response = await bookingService.createBooking({
+          table_id: selectedTable,
+          user: userData?._id,
+          room_id: selectedRoom,
+          start_time: selectedStartDate,
+          end_time: selectedEndDate,
+          amount_player: amount_player,
+          total_price: boardGame ? boardGame.price * amount_player : 0,
+          duration: duration * 60,
+          board_game_id: boardGame?._id,
+          status: 'pending',
+        });
 
-      if (response.success) {
-        showSnackbar('Booking success', 'success');
-      } else {
-        showSnackbar('Booking failed', 'error');
+        if (response.success) {
+          showSnackbar('Booking success', 'success');
+        } else {
+          showSnackbar('Booking failed', 'error');
+        }
       }
+    } catch (error) {
+      showSnackbar('Booking failed', 'error');
     }
   };
 

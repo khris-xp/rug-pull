@@ -5,4 +5,7 @@ export const userService = {
   getUser: async (): Promise<UserModelResponse> => {
     return await apiController(`/api/auth/profile`, 'get');
   },
+  getUserById: async (id: string): Promise<UserModelResponse> => {
+    return await apiController(`/api/auth/user/${id}`, 'get');
+  },
 };
