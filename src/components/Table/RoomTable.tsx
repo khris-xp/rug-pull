@@ -1,4 +1,5 @@
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { formatDateDifference } from '@/libs/date';
 import { roomService } from '@/services/room.service';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setRoomList } from '@/store/room/room.slice';
@@ -74,7 +75,7 @@ export default function RoomTable() {
                   </span>
                 </td>
                 <td>{room.tables.length}</td>
-                <td>{room.createdAt}</td>
+                <td>{formatDateDifference(room.createdAt)}</td>
                 <th>
                   <Link to={`/dashboard/room/${room._id}`}>
                     <button className='btn btn-ghost btn-xs'>details</button>

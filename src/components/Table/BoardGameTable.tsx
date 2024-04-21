@@ -1,4 +1,5 @@
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { formatDateDifference } from '@/libs/date';
 import { boardGameService } from '@/services/board-game.service';
 import { setBoardGameList } from '@/store/board-game/board-game.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -95,7 +96,7 @@ export default function BoardGameTable() {
                 <td>{boardGame.category}</td>
                 <td>{boardGame.publisher}</td>
                 <td>{boardGame.duration}</td>
-                <td>{boardGame.createdAt}</td>
+                <td>{formatDateDifference(boardGame.createdAt)}</td>
                 <th>
                   <Link to={`/dashboard/board-game/${boardGame._id}`}>
                     <button className='btn btn-ghost btn-xs'>details</button>

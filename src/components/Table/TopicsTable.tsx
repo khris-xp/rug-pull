@@ -1,4 +1,5 @@
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { formatDateDifference } from '@/libs/date';
 import { topicsService } from '@/services/topics.service';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setTopicsList } from '@/store/topics/topics.slice';
@@ -67,7 +68,7 @@ export default function TopicsTable() {
                 </td>
 
                 <td>{topics.description}</td>
-                <td>{topics.createdAt}</td>
+                <td>{formatDateDifference(topics.createdAt)}</td>
                 <th>
                   <Link to={`/dashboard/topics/${topics._id}`}>
                     <button className='btn btn-ghost btn-xs'>details</button>

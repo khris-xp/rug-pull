@@ -1,9 +1,10 @@
 import useSnackbarToast from '@/hooks/useSnackbar';
+import { formatDateDifference } from '@/libs/date';
 import { categoryService } from '@/services/category.service';
 import { setCategoryList } from '@/store/category/category.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { faCaretSquareRight } from '@fortawesome/free-solid-svg-icons';
-import {  useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../Button/Button';
 
@@ -67,7 +68,7 @@ export default function CategoryTable() {
                 </td>
                 <td>{category.description}</td>
                 <td>{category.topics}</td>
-                <td>{category.createdAt}</td>
+                <td>{formatDateDifference(category.createdAt)}</td>
                 <th>
                   <Link to={`/dashboard/category/${category._id}`}>
                     <button className='btn btn-ghost btn-xs'>details</button>

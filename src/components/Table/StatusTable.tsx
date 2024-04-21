@@ -6,6 +6,7 @@ import { faDemocrat } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../Button/Button';
+import { formatDateDifference } from '@/libs/date';
 
 export default function StatusTable() {
   const status = useAppSelector((state) => state.status.statusList);
@@ -68,7 +69,7 @@ export default function StatusTable() {
                 </td>{' '}
                 <td>{status.description}</td>
                 <td>{status.topics}</td>
-                <td>{status.createdAt}</td>
+                <td>{formatDateDifference(status.createdAt)}</td>
                 <th>
                   <Link to={`/dashboard/status/${status._id}`}>
                     <button className='btn btn-ghost btn-xs'>details</button>

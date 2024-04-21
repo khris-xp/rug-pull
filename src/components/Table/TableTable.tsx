@@ -6,6 +6,7 @@ import { faTable } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../Button/Button';
+import { formatDateDifference } from '@/libs/date';
 
 export default function TableTable() {
   const tables = useAppSelector((state) => state.table.tableList);
@@ -65,7 +66,7 @@ export default function TableTable() {
                   <div className='font-bold'>{table.number}</div>
                 </td>
                 <td>{table.capacity}</td>
-                <td>{table.createdAt}</td>
+                <td>{formatDateDifference(table.createdAt)}</td>
                 <th>
                   <Link to={`/dashboard/table/${table._id}`}>
                     <button className='btn btn-ghost btn-xs'>details</button>
